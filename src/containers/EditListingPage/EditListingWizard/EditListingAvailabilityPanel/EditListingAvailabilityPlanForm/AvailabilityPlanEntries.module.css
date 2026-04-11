@@ -1,0 +1,218 @@
+@import '../../../../../styles/customMediaQueries.css';
+
+.weekDay,
+.hasEntries {
+  padding-left: 30px;
+  padding-right: 30px;
+
+  @media (--viewportSmall) {
+    padding-left: 60px;
+    padding-right: 60px;
+  }
+}
+
+.weekDay {
+  composes: marketplaceTabNavHorizontalFontStyles from global;
+
+  /* Layout */
+  display: flex;
+  flex-direction: column;
+  flex-wrap: wrap;
+  align-items: flex-start;
+  align-content: flex-start;
+  gap: 12px;
+
+  padding-top: 10px;
+  padding-bottom: 13px;
+  border-top: solid 1px var(--colorGrey100);
+
+  &:last-child {
+    border-bottom: solid 1px var(--colorGrey100);
+  }
+
+  @media (--viewportSmall) {
+    flex-direction: row;
+    gap: 16px;
+  }
+
+  @media (--viewportMedium) {
+    padding-top: 16px;
+    padding-bottom: 16px;
+  }
+}
+
+.hasEntries {
+  background-color: var(--colorWhite);
+}
+
+.dayOfWeek {
+  display: flex;
+  align-items: center;
+  height: 36px;
+  min-width: 120px;
+  max-width: 160px;
+  width: 140px;
+  flex-grow: 1;
+
+  @media (--viewportMedium) {
+    height: 40px;
+  }
+}
+.dayOfWeekContent {
+  display: flex;
+  flex-grow: 1;
+}
+
+.planEntriesForDay {
+  flex-grow: 1;
+
+  display: flex;
+  flex-direction: column;
+  min-width: 264px;
+  width: 100%;
+  gap: 24px;
+  padding: 6px 0;
+
+  @media (--viewportSmall) {
+    width: unset;
+    padding: 8px 0;
+  }
+}
+
+.segmentWrapper {
+  /* parent aka root is flexbox, this container takes all available space */
+  flex-grow: 1;
+  flex-shrink: 0;
+
+  /* This container uses flexbox layout */
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  min-width: 264px;
+  padding: 0px 0px 17px 0px;
+  gap: 18px;
+
+  position: relative;
+  border-bottom: solid 1px var(--colorGrey100);
+
+  @media (--viewportMedium) {
+    padding: 0px 0px 16px 0px;
+    gap: 16px;
+  }
+}
+
+.segment {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  width: 100%;
+}
+
+.timeRangeRow {
+  /* parent aka segmentWrapper is flexbox, this container takes all available space */
+  flex-grow: 1;
+  flex-shrink: 0;
+
+  /* This container uses flexbox layout */
+  display: flex;
+  flex-wrap: nowrap;
+  justify-content: flex-start;
+  align-items: center;
+  gap: 4px;
+
+  width: 100%;
+  position: relative;
+
+  z-index: 1;
+}
+
+.timeRangeHidden {
+  display: none;
+}
+
+.seatsField {
+  width: 100%;
+}
+.hourField {
+  flex-grow: 1;
+}
+.dashBetweenTimes {
+  stroke: var(--colorGrey700);
+}
+
+.seatsInput {
+  height: 36px;
+  padding: 5px 12px;
+}
+
+.fieldArrayDelete {
+  cursor: pointer;
+
+  &:hover {
+    color: var(--colorBlack);
+
+    .deleteIcon {
+      stroke: var(--colorFail);
+    }
+  }
+}
+
+.deleteIcon {
+  display: inline-block;
+  box-sizing: content-box;
+  stroke: var(--colorGrey300);
+
+  /* align icon with the select fields */
+  padding: 1px 0 4px 0;
+  margin: 0 8px 0 0;
+
+  &:hover {
+    stroke: var(--colorFail);
+  }
+
+  @media (--viewportMedium) {
+    padding: 2px 0 6px 0;
+  }
+}
+
+.plus1Day {
+  composes: marketplaceTinyFontStyles from global;
+  color: var(--colorGrey600);
+  position: absolute;
+  bottom: -24px;
+  right: 0px;
+  visibility: hidden;
+  opacity: 0;
+  padding: 5px 0 1px 0;
+  margin: 0 0px 0 8px;
+
+  @media (--viewportMedium) {
+    padding: 6px 0 2px 0;
+    margin: 0 0px 0 8px;
+  }
+}
+.showPlus1Day {
+  visibility: visible;
+  opacity: 1;
+}
+
+.buttonAddNew {
+  composes: h5 from global;
+  color: var(--colorGrey700);
+  width: fit-content;
+  margin: 0;
+}
+
+.fieldSelect {
+  composes: marketplaceTabNavHorizontalFontStyles from global;
+  padding: 6px 12px 4px 12px;
+  min-width: 87px;
+  text-align: left;
+
+  &:select {
+    margin-right: 0;
+  }
+}
+.notSelected {
+  color: var(--colorGrey300);
+}

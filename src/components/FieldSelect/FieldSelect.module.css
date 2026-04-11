@@ -1,0 +1,10 @@
+.root {
+}
+
+.selectError {
+  border: var(--borderErrorField);
+}
+
+.labelDisabled {
+  color: var(--colorGrey600);
+}

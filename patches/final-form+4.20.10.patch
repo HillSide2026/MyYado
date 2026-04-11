@@ -1,0 +1,22 @@
+diff --git a/node_modules/final-form/dist/final-form.es.js b/node_modules/final-form/dist/final-form.es.js
+index e31d7f3..0757644 100644
+--- a/node_modules/final-form/dist/final-form.es.js
++++ b/node_modules/final-form/dist/final-form.es.js
+@@ -1,6 +1,16 @@
+-import _extends from '@babel/runtime/helpers/esm/extends';
+ import _objectWithoutPropertiesLoose from '@babel/runtime/helpers/esm/objectWithoutPropertiesLoose';
+ 
++const _extends = function (target) {
++  for (var i = 1; i < arguments.length; i++) {
++    var source = arguments[i];
++    for (var key in source) {
++      if (Object.prototype.hasOwnProperty.call(source, key)) {
++        target[key] = source[key];
++      }
++    }
++  }
++  return target;
++}
+ //      
+ 
+ var charCodeOfDot = ".".charCodeAt(0);
