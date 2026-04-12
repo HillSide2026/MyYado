@@ -369,3 +369,17 @@ on maintained Sharetribe containers.
 
 Status:
 adapt
+
+## 2026-04-12 - Freeze Historical Repo As Provenance Only
+
+Decision:
+Treat the historical repo as read-only provenance captured by `docs/product/source-index.md`. Do not
+use its paths, APIs, packages, schemas, or runtime behavior as implementation dependencies in MyYado.
+
+Reason:
+The product-model baseline needs to stand on the Sharetribe-native MyYado docs and configuration.
+Source-index paths answer where ideas came from, but future implementation should not require opening
+or importing the historical repo.
+
+Status:
+adopt
