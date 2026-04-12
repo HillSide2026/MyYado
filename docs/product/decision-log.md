@@ -355,3 +355,17 @@ listing editor or search filters during implementation.
 
 Status:
 adapt
+
+## 2026-04-12 - Use Route Aliases Instead Of A Parallel MyYado App Router
+
+Decision:
+Expose product-friendly routes such as `/explore`, `/collections/:collectionSlug`, `/providers`, and
+`/trips` as redirects into native Sharetribe pages.
+
+Reason:
+The old repo had a separate `/app` router, but MyYado should keep one routing system. Aliases preserve
+clear product entry points while search, listing detail, checkout, inbox, and provider management stay
+on maintained Sharetribe containers.
+
+Status:
+adapt

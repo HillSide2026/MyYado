@@ -788,3 +788,48 @@ The following are not MyYado use cases:
 - Investment execution or securities workflow
 
 These can only re-enter the product through an explicit future decision.
+
+## Phase 6 Route Coverage
+
+These route surfaces make the normalized use cases reachable through the Sharetribe app without
+recreating the old `/app` router.
+
+Traveler routes:
+
+| Use case | Route surface | Notes |
+| --- | --- | --- |
+| TRV-01 - Discover Curated Supply | `/`, `/explore`, `/collections/:collectionSlug` | Landing content remains hosted/CMS-driven; collection routes redirect to filtered search |
+| TRV-02 - Search And Filter Listings | `/s`, `/explore` | Uses configured location, dates, price, Stay Type, capacity, and collection filters |
+| TRV-03 - Browse A Collection | `/collections/:collectionSlug` | Redirects to `/s?pub_collectionTags=has_any:{collectionSlug}` |
+| TRV-04 - Evaluate A Listing | `/l/:slug/:id`, `/l/:id` | Native ListingPage with configured fields |
+| TRV-05 - Start A Booking Request | `/l/:slug/:id`, `/l/:slug/:id/checkout` | ListingPage starts checkout; CheckoutPage creates the transaction |
+| TRV-06 - Make An Inquiry | `/l/:slug/:id` | Uses the native booking-process inquiry path where exposed by ListingPage |
+| TRV-07 - Complete Payment Or Confirmation | `/l/:slug/:id/checkout`, `/order/:id` | CheckoutPage plus OrderDetailsPage |
+| TRV-08 - Receive Arrival Details | `/order/:id`, `/inbox/orders`, `/trips` | Trip context lives on native order/inbox surfaces |
+| TRV-09 - Manage Trips | `/trips`, `/inbox/orders`, `/order/:id` | `/trips` redirects to traveler orders |
+| TRV-10 - Manage Traveler Profile | `/profile-settings`, `/account/contact-details`, `/account/payment-methods` | Native account/profile pages |
+| TRV-11 - Leave A Review | `/order/:id` | Native transaction review transitions after completion |
+
+Provider routes:
+
+| Use case | Route surface | Notes |
+| --- | --- | --- |
+| PRV-01 - Apply To Join MyYado | `/providers`, `/l/new` | MVP intake starts with signup and listing draft creation |
+| PRV-02 - Create Or Complete A Listing Draft | `/l/new`, `/l/:slug/:id/:type/:tab` | Native EditListingPage with MyYado listing fields |
+| PRV-03 - Submit Listing For Review | `/l/:slug/:id/:type/:tab` | Uses native publish/submission behavior; deeper review workflow remains deferred |
+| PRV-04 - Manage Listing Content | `/listings`, `/providers/listings`, `/l/:slug/:id/:type/:tab` | Native ManageListings and EditListingPage |
+| PRV-05 - Manage Pricing And Availability | `/l/:slug/:id/:type/pricing`, `/l/:slug/:id/:type/availability` | Native pricing and availability tabs |
+| PRV-06 - Respond To Inquiry | `/inbox/sales`, `/sale/:id` | Native provider inbox and SaleDetailsPage |
+| PRV-07 - Respond To Booking Request | `/inbox/sales`, `/sale/:id` | Provider accepts or declines preauthorized requests |
+| PRV-08 - Coordinate Confirmed Reservation | `/sale/:id`, `/inbox/sales` | Native transaction messages and sale details |
+| PRV-09 - View Provider Dashboard | `/providers/listings`, `/listings`, `/inbox/sales` | Starts with native listings and provider inbox |
+
+Platform Admin routes:
+
+| Use case | Route surface | Notes |
+| --- | --- | --- |
+| ADM-01 - Review Provider Application | Sharetribe Console/manual operations | Full application workflow remains deferred |
+| ADM-02 - Review Listing Before Publication | Sharetribe Console/manual operations | Native app exposes provider draft/edit surfaces only |
+| ADM-03 - Curate Collections | Hosted CMS/config plus listing `collectionTags` | Admin curation happens through hosted content/config and listing tags |
+| ADM-04 - Resolve Marketplace Support Issue | Sharetribe Console plus `/order/:id` or `/sale/:id` context | In-app support tooling remains deferred |
+| ADM-05 - Moderate Reviews | Sharetribe Console/manual operations | Review moderation workflow remains deferred |

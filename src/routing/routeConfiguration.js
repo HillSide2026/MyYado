@@ -56,6 +56,17 @@ const draftId = '00000000-0000-0000-0000-000000000000';
 const draftSlug = 'draft';
 
 const RedirectToLandingPage = () => <NamedRedirect name="LandingPage" />;
+const RedirectToSearchPage = () => <NamedRedirect name="SearchPage" />;
+const RedirectToCollectionSearchPage = props => {
+  const collectionSlug = props.params?.collectionSlug;
+  const search = collectionSlug ? `?pub_collectionTags=has_any:${collectionSlug}` : '';
+  return <NamedRedirect name="SearchPage" search={search} />;
+};
+const RedirectToProviderStart = () => <NamedRedirect name="NewListingPage" />;
+const RedirectToProviderListings = () => <NamedRedirect name="ManageListingsPage" />;
+const RedirectToTravelerTrips = () => (
+  <NamedRedirect name="InboxPage" params={{ tab: 'orders' }} />
+);
 
 // NOTE: Most server-side endpoints are prefixed with /api. Requests to those
 // endpoints are indended to be handled in the server instead of the browser and
@@ -81,6 +92,43 @@ const routeConfiguration = (layoutConfig, accessControlConfig) => {
       name: 'LandingPage',
       component: LandingPage,
       loadData: pageDataLoadingAPI.LandingPage.loadData,
+    },
+    {
+      path: '/explore',
+      name: 'ExplorePage',
+      ...authForPrivateMarketplace,
+      component: RedirectToSearchPage,
+    },
+    {
+      path: '/collections',
+      name: 'CollectionsPage',
+      ...authForPrivateMarketplace,
+      component: RedirectToSearchPage,
+    },
+    {
+      path: '/collections/:collectionSlug',
+      name: 'CollectionPage',
+      ...authForPrivateMarketplace,
+      component: RedirectToCollectionSearchPage,
+    },
+    {
+      path: '/providers',
+      name: 'ProviderStartPage',
+      component: RedirectToProviderStart,
+    },
+    {
+      path: '/providers/listings',
+      name: 'ProviderListingsPage',
+      auth: true,
+      authPage: 'LoginPage',
+      component: RedirectToProviderListings,
+    },
+    {
+      path: '/trips',
+      name: 'TravelerTripsPage',
+      auth: true,
+      authPage: 'LoginPage',
+      component: RedirectToTravelerTrips,
     },
     {
       path: '/p/:pageId',
