@@ -31,6 +31,24 @@
   height: 100%;
 }
 
+.trustBadge {
+  composes: marketplaceTinyFontStyles from global;
+  position: absolute;
+  top: 8px;
+  left: 8px;
+  z-index: 1;
+  max-width: calc(100% - 16px);
+  padding: 4px 8px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  border: 1px solid rgba(217, 222, 216, 0.9);
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.92);
+  color: var(--myyadoInk);
+  font-weight: var(--fontWeightBold);
+}
+
 .title.lightText {
   color: var(--colorWhite);
 }

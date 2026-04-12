@@ -27,7 +27,7 @@ Travelers.
 - Approval criteria:
   - image quality
   - description clarity
-  - host responsiveness
+  - Provider responsiveness
 - Enforcement:
   - listings must be approved before going live
   - visibility is shaped through curated collections

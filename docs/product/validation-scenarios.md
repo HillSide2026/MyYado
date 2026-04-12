@@ -71,8 +71,8 @@ Use cases:
 - ADM-03
 
 Steps:
-1. Open `/collections/quiet-kyoto`.
-2. Confirm redirect/search state points to `/s?pub_collectionTags=has_any:quiet-kyoto`.
+1. Open `/collections/temple-town-stays`.
+2. Confirm redirect/search state points to `/s?pub_collectionTags=has_any:temple-town-stays`.
 3. Open a listing from the results.
 
 Expected:
@@ -284,7 +284,7 @@ as a confirmed Reservation.
 
 First Playwright candidates:
 - VAL-01: route `/explore` redirects to `/s` and exposes configured filters.
-- VAL-02: `/collections/quiet-kyoto` redirects to collection-filtered search.
+- VAL-02: `/collections/temple-town-stays` redirects to collection-filtered search.
 - VAL-08: `/providers` reaches the authenticated listing creation flow.
 - VAL-10: `/trips` reaches the authenticated orders inbox.
 

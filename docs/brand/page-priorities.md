@@ -20,7 +20,7 @@ Implementation baseline:
 | Search / Discovery | Help Travelers narrow curated supply | Entry via market or collection; curated results first; filters secondary | Keep native SearchPage and search schema |
 | Listing Page | Convert interest into informed action | Clean gallery, Provider story prominent, trust signals near top, booking clarity preserved | Use native ListingPage, custom listing fields, reviews, and order panel |
 | Booking Flow | Preserve confidence at the highest-risk step | Keep price, dates, party size, payment, and request-to-book state clear | Keep native checkout and `default-booking/release-1` |
-| Provider Start | Explain curation and quality bar | Communicate review criteria, quality expectations, and marketplace difference | MVP route starts native listing creation; richer host page is backlog |
+| Provider Start | Explain curation and quality bar | Communicate review criteria, quality expectations, and marketplace difference | MVP route starts native listing creation; richer Provider page is backlog |
 | Provider Dashboard | Let Providers manage supply and requests | Keep status labels clear; avoid decorative custom dashboard before need is proven | Keep native listing management and sales inbox |
 | Traveler Trips | Let Travelers manage requests and Reservations | Clear state language: Inquiry, Booking Request, Reservation | Keep native orders inbox and order details |
 

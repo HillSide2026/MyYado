@@ -25,9 +25,11 @@ const stayTypeOptions = [
 ];
 
 const collectionTagOptions = [
-  { option: 'quiet-kyoto', label: 'Quiet Kyoto' },
-  { option: 'design-stays', label: 'Design stays' },
-  { option: 'cedar-and-onsen', label: 'Cedar and onsen' },
+  { option: 'temple-town-stays', label: 'Temple Town Stays' },
+  { option: 'coastal-culture', label: 'Coastal Culture' },
+  { option: 'onsen-retreats', label: 'Onsen Retreats' },
+  { option: 'quiet-arrival', label: 'Quiet Arrival' },
+  { option: 'hidden-coast', label: 'Hidden Coast' },
 ];
 
 const amenityOptions = [

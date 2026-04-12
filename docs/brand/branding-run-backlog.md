@@ -9,7 +9,7 @@
 ## Tier 2
 
 - Collections UI
-- Host landing page
+- Provider landing page
 
 ## Tier 3
 

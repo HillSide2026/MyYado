@@ -71,7 +71,7 @@ Listings:
 Sections:
 - supportive
 
-Hosts:
+Providers:
 - trust-building
 
 ## Image Constraints

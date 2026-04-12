@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="96" height="64" viewBox="0 0 96 64" role="img" aria-labelledby="title">
+  <title id="title">MyYado</title>
+  <rect width="96" height="64" fill="#ffffff"/>
+  <rect x="18" y="14" width="36" height="36" rx="8" fill="#2f6f5e"/>
+  <rect x="28" y="24" width="16" height="16" rx="4" fill="#ffffff"/>
+  <text x="62" y="38" fill="#1f2926" font-family="Inter, Arial, sans-serif" font-size="14" font-weight="700">MY</text>
+</svg>

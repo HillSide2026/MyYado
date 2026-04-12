@@ -383,3 +383,29 @@ or importing the historical repo.
 
 Status:
 adopt
+
+## 2026-04-12 - Use Market-Linked Collections For Brand Baseline
+
+Decision:
+Replace the old placeholder collection tag options with Phase 10 market-linked collections: Temple
+Town Stays, Coastal Culture, Onsen Retreats, Quiet Arrival, and Hidden Coast.
+
+Reason:
+The brand system makes geography part of discovery. Collection tags should reinforce launch and
+near-term markets instead of preserving historical seed slugs that are no longer the product model.
+
+Status:
+adapt
+
+## 2026-04-12 - Use Placeholder Brand Media Until Final Assets Exist
+
+Decision:
+Use neutral local MyYado placeholder brand assets and homepage media blocks for the implementation
+baseline. Final photography and hosted brand assets remain a later content operation.
+
+Reason:
+Phase 10 needs layout, hierarchy, and brand direction without pretending that final media has been
+selected. Placeholder media removes template defaults while keeping asset decisions reversible.
+
+Status:
+adopt

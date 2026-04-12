@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1500" height="900" viewBox="0 0 1500 900" role="img" aria-labelledby="title desc">
+  <title id="title">MyYado placeholder brand image</title>
+  <desc id="desc">Neutral placeholder for calm Japanese stay imagery.</desc>
+  <rect width="1500" height="900" fill="#f6f8f5"/>
+  <rect x="120" y="120" width="1260" height="660" rx="8" fill="#ffffff"/>
+  <rect x="180" y="180" width="520" height="540" rx="8" fill="#d9ded8"/>
+  <rect x="760" y="180" width="560" height="120" rx="8" fill="#2f6f5e"/>
+  <rect x="760" y="340" width="460" height="48" rx="8" fill="#d9ded8"/>
+  <rect x="760" y="424" width="360" height="48" rx="8" fill="#d9ded8"/>
+  <rect x="760" y="540" width="220" height="64" rx="8" fill="#a35f45"/>
+  <text x="180" y="810" fill="#1f2926" font-family="Inter, Arial, sans-serif" font-size="42" font-weight="700">Not more stays. Better stays.</text>
+</svg>

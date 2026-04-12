@@ -53,6 +53,7 @@ const ListingCardImage = props => {
     variantPrefix,
     aspectRatioClassName,
     lazyLoadImage,
+    trustBadgeLabel,
   } = props;
 
   const firstImage = listing?.images?.[0] || null;
@@ -77,6 +78,7 @@ const ListingCardImage = props => {
         variants={variants}
         sizes={renderSizes}
       />
+      {trustBadgeLabel ? <div className={css.trustBadge}>{trustBadgeLabel}</div> : null}
     </AspectRatioWrapper>
   );
 };
@@ -134,6 +136,20 @@ export const ListingCard = props => {
   // Render the listing image only if listing images are enabled in the listing type
   const showListingImage = requireListingImage(foundListingTypeConfig);
 
+  const hasCollectionTags =
+    Array.isArray(publicData?.collectionTags) && publicData.collectionTags.length > 0;
+  const isMyYadoStay = listingType === 'nightly-stay' || hasCollectionTags;
+  const isFeatured =
+    publicData?.featured === true ||
+    publicData?.featuredStatus === true ||
+    publicData?.featuredStatus === 'featured';
+  let trustBadgeLabel = null;
+  if (isFeatured) {
+    trustBadgeLabel = intl.formatMessage({ id: 'ListingCard.badgeFeatured' });
+  } else if (isMyYadoStay) {
+    trustBadgeLabel = intl.formatMessage({ id: 'ListingCard.badgeCurated' });
+  }
+
   const {
     aspectWidth = 1,
     aspectHeight = 1,
@@ -166,6 +182,7 @@ export const ListingCard = props => {
           variantPrefix={variantPrefix}
           aspectRatioClassName={aspectRatioClassName}
           lazyLoadImage={lazyLoadImage}
+          trustBadgeLabel={trustBadgeLabel}
         />
       ) : (
         <ListingCardThumbnail

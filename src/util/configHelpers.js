@@ -263,7 +263,7 @@ const mergeBranding = (brandingConfig, defaultBranding) => {
     logoSettings: validLogoSettings ? logoSettingsRaw : { format: 'image', height: 24 },
     logoImageDesktop: logo || defaultBranding.logoImageDesktopURL,
     logoImageMobile: logo || defaultBranding.logoImageMobileURL,
-    brandImage: loginBackgroundImage,
+    brandImage: loginBackgroundImage || defaultBranding.brandImageURL,
     facebookImage,
     twitterImage,
     ...rest,
