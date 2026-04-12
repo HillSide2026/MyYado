@@ -229,8 +229,12 @@ Transaction fields on `nightly-stay`:
 | Field | Show to | Schema type | Required | Purpose |
 | --- | --- | --- | --- | --- |
 | `travelersCount` | `customer` | `long` | yes | Number of travelers in the Booking Request |
-| `travelerNote` | `customer` | `text` | no | Context for the Provider before acceptance |
 | `arrivalNeeds` | `customer` | `text` | no | Accessibility, timing, dietary, or coordination note |
+
+Traveler note:
+- Use the template's existing checkout message field for the general note to Provider.
+- Do not add a duplicate `travelerNote` transaction field unless the checkout message field is
+  removed or no longer fits the booking path.
 
 Validation rules:
 - `travelersCount` minimum is `1`.

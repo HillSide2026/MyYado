@@ -43,7 +43,7 @@ export const dateRangeFilter = {
   //       we don't use API's 'time-full' in actual queries. It would require time zone info.
   availability: 'time-full', // time-partial
   // Options: day/night. This affects counting and whether single day picking is possible.
-  dateRangeMode: 'day',
+  dateRangeMode: 'night',
 };
 
 /**

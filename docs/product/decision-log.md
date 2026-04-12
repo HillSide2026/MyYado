@@ -327,3 +327,31 @@ multi-currency layer would complicate search, checkout, payouts, and traveler ex
 
 Status:
 adopt
+
+## 2026-04-12 - Use Checkout Message For General Traveler Note
+
+Decision:
+Use the Sharetribe template's existing checkout message field for the general Traveler note to the
+Provider. Keep custom transaction fields limited to structured request data such as traveler count
+and arrival needs.
+
+Reason:
+The checkout form already renders and stores a Provider-facing message for booking requests. Adding a
+separate `travelerNote` transaction field would duplicate the UI and make the request form less clear.
+
+Status:
+adapt
+
+## 2026-04-12 - Enable MyYado Local Listing Config In Development
+
+Decision:
+Merge local MyYado listing types and listing fields in development so Phase 5 configuration can be
+validated before equivalent hosted Sharetribe assets are updated.
+
+Reason:
+The template normally prefers hosted listing configuration. That remains correct for production, but
+without a development merge the local `configListing.js` product schema would not be visible in the
+listing editor or search filters during implementation.
+
+Status:
+adapt
