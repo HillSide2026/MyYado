@@ -233,3 +233,97 @@ now would add complexity before the need is proven.
 
 Status:
 defer
+
+## 2026-04-12 - Use Request-To-Book As The MVP Transaction Mode
+
+Decision:
+Use request-to-book as the primary MyYado stay transaction mode. Traveler payment is preauthorized
+before Provider acceptance, and a Reservation exists only after the Provider accepts.
+
+Reason:
+MyYado's curated supply model benefits from Provider review before confirmation. Sharetribe
+`default-booking/release-1` already supports the needed path through payment, preauthorization,
+acceptance, decline, expiration, completion, and review states.
+
+Status:
+adopt
+
+## 2026-04-12 - Defer Instant Booking
+
+Decision:
+Do not support instant booking in the MVP transaction model.
+
+Reason:
+Instant booking would require stronger availability confidence, Provider readiness, and cancellation
+operations. The product can launch with clearer expectations by requiring Provider acceptance.
+
+Status:
+defer
+
+## 2026-04-12 - Keep Inquiry Inside The Booking Process For MVP
+
+Decision:
+Use the `transition/inquire` path in `default-booking/release-1` for pre-booking questions, then let
+the same Transaction advance through `transition/request-payment-after-inquiry` if the Traveler wants
+to book.
+
+Reason:
+This preserves a low-commitment Inquiry path without introducing a separate non-bookable listing type
+or custom inquiry backend. The native booking process already contains a convertible inquiry state.
+
+Status:
+adopt
+
+## 2026-04-12 - Use Nightly Stay As The Single MVP Listing Type
+
+Decision:
+Define one MVP listing type, `nightly-stay`, backed by `default-booking/release-1` and unit type
+`night`.
+
+Reason:
+The old product model focused on stays with check-in/check-out dates and nightly pricing. A single
+listing type keeps search, listing creation, checkout, and transaction behavior clear before adding
+other supply formats.
+
+Status:
+adopt
+
+## 2026-04-12 - Expose Only Search Filters With Concrete Data Fields
+
+Decision:
+Expose MVP search filters only for native listing data or indexed listing `publicData`: location,
+dates, price, `stayType`, `maxTravelers`, and `collectionTags`.
+
+Reason:
+The search UI must not imply behavior that Sharetribe cannot query. Bedrooms, beds, bathrooms,
+amenities, bathing, dining, transfer availability, and languages remain listing detail fields until
+they are intentionally indexed.
+
+Status:
+adopt
+
+## 2026-04-12 - Model Traveler Count With Listing Capacity And Transaction Field
+
+Decision:
+Use listing `publicData.maxTravelers` for capacity search and a required transaction field
+`travelersCount` for the actual Booking Request party size.
+
+Reason:
+Capacity is a Listing attribute, while the selected party size belongs to the specific Transaction.
+Keeping both avoids mixing searchable supply constraints with per-request traveler data.
+
+Status:
+adapt
+
+## 2026-04-12 - Use Native Single-Currency Price Search
+
+Decision:
+Use Sharetribe's built-in listing `price` and native `price` search filter. Do not add custom
+multi-currency pricing fields in the MVP.
+
+Reason:
+Sharetribe marketplace environments operate with a configured marketplace currency. A custom
+multi-currency layer would complicate search, checkout, payouts, and traveler expectations.
+
+Status:
+adopt
