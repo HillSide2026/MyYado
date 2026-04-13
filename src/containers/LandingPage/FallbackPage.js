@@ -9,14 +9,14 @@ const launchMarkets = [
     name: 'Nikko',
     role: 'Nature and heritage',
     copy: 'Slow stays near forest paths, old routes, and quieter days.',
-    collectionSlug: 'temple-town-stays',
+    routeName: 'NikkoMarketPage',
     tone: 'nikko',
   },
   {
     name: 'Kamakura',
     role: 'Coastal culture',
     copy: 'Easy access, sea air, and stays close to daily life.',
-    collectionSlug: 'coastal-culture',
+    routeName: 'KamakuraMarketPage',
     tone: 'kamakura',
   },
 ];
@@ -98,11 +98,7 @@ const FallbackPage = props => {
               </NamedLink>
             </div>
           </div>
-          <div
-            className={css.heroVisual}
-            role="img"
-            aria-label="Placeholder for calm Nikko and Kamakura stay photography"
-          >
+          <div className={css.heroVisual} role="img" aria-label="Calm stays in Nikko and Kamakura">
             <div className={css.heroVisualPrimary}>Nikko</div>
             <div className={css.heroVisualSecondary}>Kamakura</div>
             <div className={css.heroVisualNote}>Reviewed stays only</div>
@@ -118,16 +114,11 @@ const FallbackPage = props => {
           </div>
           <div className={css.marketGrid}>
             {launchMarkets.map(market => (
-              <NamedLink
-                key={market.name}
-                name="CollectionPage"
-                params={{ collectionSlug: market.collectionSlug }}
-                className={css.marketCard}
-              >
+              <NamedLink key={market.name} name={market.routeName} className={css.marketCard}>
                 <div
                   className={[css.marketVisual, css[market.tone]].join(' ')}
                   role="img"
-                  aria-label={`${market.name} placeholder photography`}
+                  aria-label={`${market.name} stay atmosphere`}
                 />
                 <div className={css.marketText}>
                   <p className={css.marketRole}>{market.role}</p>

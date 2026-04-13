@@ -409,3 +409,31 @@ selected. Placeholder media removes template defaults while keeping asset decisi
 
 Status:
 adopt
+
+
+## 2026-04-13 - Treat Collections As Search Primitives
+
+Decision:
+Collections are search primitives for MVP. `collectionTags` is required, indexed, filterable,
+and used by collection routes. Collections are not editorial-only labels.
+
+Reason:
+MyYado discovery needs collections to shape actual listing retrieval, not just storytelling modules.
+This keeps collection pages, filters, and listing creation aligned around one controlled vocabulary.
+
+Status:
+adopt
+
+## 2026-04-13 - Use Flat Market Routes For Launch Markets
+
+Decision:
+Use explicit flat market routes (`/nikko`, `/kamakura`, `/hakone`, `/chiba`) that redirect into
+market-filtered search.
+
+Reason:
+The existing Sharetribe listing route structure should remain stable. Flat market pages give clean
+entry points without introducing a dynamic top-level route that could conflict with account,
+listing, checkout, or CMS paths.
+
+Status:
+adopt

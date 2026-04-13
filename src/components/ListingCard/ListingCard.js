@@ -136,9 +136,7 @@ export const ListingCard = props => {
   // Render the listing image only if listing images are enabled in the listing type
   const showListingImage = requireListingImage(foundListingTypeConfig);
 
-  const hasCollectionTags =
-    Array.isArray(publicData?.collectionTags) && publicData.collectionTags.length > 0;
-  const isMyYadoStay = listingType === 'nightly-stay' || hasCollectionTags;
+  const isCurated = publicData?.curationStatus === 'curated';
   const isFeatured =
     publicData?.featured === true ||
     publicData?.featuredStatus === true ||
@@ -146,7 +144,7 @@ export const ListingCard = props => {
   let trustBadgeLabel = null;
   if (isFeatured) {
     trustBadgeLabel = intl.formatMessage({ id: 'ListingCard.badgeFeatured' });
-  } else if (isMyYadoStay) {
+  } else if (isCurated) {
     trustBadgeLabel = intl.formatMessage({ id: 'ListingCard.badgeCurated' });
   }
 

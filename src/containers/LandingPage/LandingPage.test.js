@@ -19,7 +19,7 @@ describe('LandingPage', () => {
     );
 
     await waitFor(() => {
-      expect(getByText('Oops, something went wrong!')).toBeInTheDocument();
+      expect(getByText('The latest homepage content could not load.')).toBeInTheDocument();
       expect(getByText(errorMessage)).toBeInTheDocument();
     });
   });

@@ -14,3 +14,12 @@ build
 .env
 npm-debug.log
 yarn-error.log
+
+# Yarn local/generated state
+.yarn/*
+!.yarn/patches
+!.yarn/plugins
+!.yarn/releases
+!.yarn/sdks
+!.yarn/versions
+.pnp.*

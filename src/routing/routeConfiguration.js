@@ -55,6 +55,17 @@ export const ACCOUNT_SETTINGS_PAGES = [
 const draftId = '00000000-0000-0000-0000-000000000000';
 const draftSlug = 'draft';
 
+const MARKET_SEARCH_ROUTES = [
+  { path: '/nikko', name: 'NikkoMarketPage', market: 'nikko' },
+  { path: '/kamakura', name: 'KamakuraMarketPage', market: 'kamakura' },
+  { path: '/hakone', name: 'HakoneMarketPage', market: 'hakone' },
+  { path: '/chiba', name: 'ChibaMarketPage', market: 'chiba' },
+];
+
+const redirectToMarketSearch = market => () => (
+  <NamedRedirect name="SearchPage" search={`?pub_market=${market}`} />
+);
+
 const RedirectToLandingPage = () => <NamedRedirect name="LandingPage" />;
 const RedirectToSearchPage = () => <NamedRedirect name="SearchPage" />;
 const RedirectToCollectionSearchPage = props => {
@@ -99,6 +110,12 @@ const routeConfiguration = (layoutConfig, accessControlConfig) => {
       ...authForPrivateMarketplace,
       component: RedirectToSearchPage,
     },
+    ...MARKET_SEARCH_ROUTES.map(route => ({
+      path: route.path,
+      name: route.name,
+      ...authForPrivateMarketplace,
+      component: redirectToMarketSearch(route.market),
+    })),
     {
       path: '/collections',
       name: 'CollectionsPage',

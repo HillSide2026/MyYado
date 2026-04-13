@@ -148,9 +148,9 @@ Platform/Admin/system actions:
 | Location | yes | `address`, `bounds`, and map query params | Sharetribe listing location/geolocation | Native location search | `src/config/configSearch.js` `mainSearch.searchType = location` | Public location can be approximate; precise arrival details remain private until confirmation |
 | Dates | yes | `dates=start,end`, converted to API `start`, `end`, `availability`, `minDuration` | Sharetribe listing availability and existing bookings | Native availability search | `dateRangeFilter` with `dateRangeMode = night` | Required for bookable search; local config uses nightly search |
 | Price | yes | `price=min,max` | Sharetribe built-in listing `price` | Native price search | `priceFilter` | One marketplace currency only; no custom multi-currency field |
-| Stay Type | yes | `pub_stayType=value` or comma-separated values | `listing.attributes.publicData.stayType` | Public data search schema: `enum` | `listingFields` field `stayType` | Primary taxonomy filter |
-| Travelers / Capacity | yes | `pub_maxTravelers=min,maxExclusive` | `listing.attributes.publicData.maxTravelers` | Public data search schema: `long` | `listingFields` field `maxTravelers` | A selected traveler count maps to a minimum capacity range, for example `4,21` when the configured maximum is 20 |
-| Collection | yes | `pub_collectionTags=has_any:temple-town-stays` | `listing.attributes.publicData.collectionTags` | Public data search schema: `multi-enum` | `listingFields` field `collectionTags` | Used by curated links and can also appear as a secondary filter |
+| Market | yes | `pub_market=value` | `listing.attributes.publicData.market` | Public data search schema: `enum` | `listingFields` field `market` | Primary place filter and flat market route target |
+| Collection | yes | `pub_collectionTags=has_any:temple-town-stays` | `listing.attributes.publicData.collectionTags` | Public data search schema: `multi-enum` | `listingFields` field `collectionTags` | Required search primitive used by curated links and collection browsing |
+| Curation status | hidden | internal `pub_curationStatus=value` index | `listing.attributes.publicData.curationStatus` | Public data search schema: `enum` | `listingFields` field `curationStatus` | Used to rank curated listings above candidates; not a traveler-facing filter |
 | Sort | yes | `sort=createdAt`, `-createdAt`, `-price`, `price` | Built-in listing attributes | Native sort | `sortConfig` | Relevance sort only matters if keyword search is later enabled |
 | Listing Type | hidden | optional `pub_listingType=nightly-stay` | Sharetribe listing type public data set by EditListingWizard | Public data search schema: `enum` only if enforcement is enabled | `listingTypes`, optional `enforceValidListingType` | Not a traveler-facing filter while there is only one MVP listing type |
 
@@ -158,6 +158,8 @@ Filters not exposed in MVP search:
 
 | Field or intent | Data source | Reason |
 | --- | --- | --- |
+| Stay type | `publicData.stayType` | Structured detail only until supply justifies taxonomy filtering |
+| Travelers / Capacity | `publicData.maxTravelers` | Booking validation and listing detail only; not indexed in MVP discovery |
 | Bedrooms | `publicData.bedrooms` | Listing detail only until there is enough supply to justify filtering |
 | Beds | `publicData.beds` | Listing detail only |
 | Bathrooms | `publicData.bathrooms` | Listing detail only |
@@ -191,9 +193,11 @@ Required public listing fields:
 
 | Field | Scope | Schema type | Required | Indexed | Filter | Purpose |
 | --- | --- | --- | --- | --- | --- | --- |
-| `stayType` | `public` | `enum` | yes | yes | yes, primary | Ryokan, minshuku, machiya, villa |
-| `maxTravelers` | `public` | `long` | yes | yes | yes, primary or secondary | Capacity filtering and booking validation |
-| `collectionTags` | `public` | `multi-enum` | no | yes | yes, secondary | Curated discovery links and collection browsing |
+| `market` | `public` | `enum` | yes | yes | yes, primary | Nikko, Kamakura, Hakone, Chiba |
+| `collectionTags` | `public` | `multi-enum` | yes | yes | yes, secondary | Curated discovery links and collection browsing |
+| `curationStatus` | `public` | `enum` | yes | yes | hidden | Curated, candidate, rejected ranking signal |
+| `stayType` | `public` | `enum` | yes | no | no | Ryokan, minshuku, machiya, villa |
+| `maxTravelers` | `public` | `long` | yes | no | no | Capacity display and booking validation |
 | `bedrooms` | `public` | `long` | yes | no | no | Listing detail |
 | `beds` | `public` | `long` | yes | no | no | Listing detail |
 | `bathrooms` | `public` | `long` | yes | no | no | Listing detail |
@@ -279,12 +283,14 @@ or hosted/local config must not expose the corresponding filter:
 
 | Key | Scope | Schema type | Required before UI exposure |
 | --- | --- | --- | --- |
-| `stayType` | `publicData` | `enum` | yes |
-| `maxTravelers` | `publicData` | `long` | yes |
+| `market` | `publicData` | `enum` | yes |
 | `collectionTags` | `publicData` | `multi-enum` | yes |
+| `curationStatus` | `publicData` | `enum` | yes |
 | `listingType` | `publicData` | `enum` | only if `enforceValidListingType` or `/s/:listingType` filtering is used |
 
 Fields deliberately not indexed for MVP:
+- `stayType`
+- `maxTravelers`
 - `bedrooms`
 - `beds`
 - `bathrooms`

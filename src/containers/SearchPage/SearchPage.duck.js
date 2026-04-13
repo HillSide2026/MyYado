@@ -20,13 +20,20 @@ import { addMarketplaceEntities } from '../../ducks/marketplaceData.duck';
 // Current design has max 3 columns 12 is divisible by 2 and 3
 // So, there's enough cards to fill all columns on full pagination pages
 const RESULT_PAGE_SIZE = 24;
+const CURATION_STATUS_ORDER = { curated: 0, candidate: 1, rejected: 2 };
 
 // ================ Helper Functions ================ //
+
+const curationRank = listing => {
+  const status = listing?.attributes?.publicData?.curationStatus;
+  return CURATION_STATUS_ORDER[status] ?? CURATION_STATUS_ORDER.candidate;
+};
 
 const resultIds = data => {
   const listings = data.data;
   return listings
     .filter(l => !l.attributes.deleted && l.attributes.state === 'published')
+    .sort((a, b) => curationRank(a) - curationRank(b))
     .map(l => l.id);
 };
 

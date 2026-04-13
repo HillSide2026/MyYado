@@ -10,6 +10,13 @@
 const NIGHTLY_STAY_LISTING_TYPE = 'nightly-stay';
 const MAX_TRAVELERS = 20;
 
+const marketOptions = [
+  { option: 'nikko', label: 'Nikko' },
+  { option: 'kamakura', label: 'Kamakura' },
+  { option: 'hakone', label: 'Hakone' },
+  { option: 'chiba', label: 'Chiba' },
+];
+
 const nightlyStayListingTypeConfig = {
   limitToListingTypeIds: true,
   listingTypeIds: [NIGHTLY_STAY_LISTING_TYPE],
@@ -30,6 +37,12 @@ const collectionTagOptions = [
   { option: 'onsen-retreats', label: 'Onsen Retreats' },
   { option: 'quiet-arrival', label: 'Quiet Arrival' },
   { option: 'hidden-coast', label: 'Hidden Coast' },
+];
+
+const curationStatusOptions = [
+  { option: 'curated', label: 'Curated' },
+  { option: 'candidate', label: 'Candidate' },
+  { option: 'rejected', label: 'Rejected' },
 ];
 
 const amenityOptions = [
@@ -70,18 +83,35 @@ const languageOptions = [
 
 export const listingFields = [
   {
+    key: 'market',
+    scope: 'public',
+    schemaType: 'enum',
+    enumOptions: marketOptions,
+    listingTypeConfig: nightlyStayListingTypeConfig,
+    filterConfig: {
+      indexForSearch: true,
+      showFilter: true,
+      filterType: 'SelectSingleFilter',
+      label: 'Market',
+      group: 'primary',
+    },
+    showConfig: {
+      label: 'Market',
+      isDetail: true,
+    },
+    saveConfig: {
+      label: 'Market',
+      placeholderMessage: 'Select a market',
+      isRequired: true,
+      requiredMessage: 'Select a market.',
+    },
+  },
+  {
     key: 'stayType',
     scope: 'public',
     schemaType: 'enum',
     enumOptions: stayTypeOptions,
     listingTypeConfig: nightlyStayListingTypeConfig,
-    filterConfig: {
-      indexForSearch: true,
-      showFilter: true,
-      filterType: 'SelectMultipleFilter',
-      label: 'Stay type',
-      group: 'primary',
-    },
     showConfig: {
       label: 'Stay type',
       isDetail: true,
@@ -102,12 +132,6 @@ export const listingFields = [
       maximum: MAX_TRAVELERS,
     },
     listingTypeConfig: nightlyStayListingTypeConfig,
-    filterConfig: {
-      indexForSearch: true,
-      showFilter: true,
-      label: 'Travelers',
-      group: 'primary',
-    },
     showConfig: {
       label: 'Sleeps',
       isDetail: true,
@@ -138,8 +162,32 @@ export const listingFields = [
     },
     saveConfig: {
       label: 'Collections',
-      placeholderMessage: 'Select any curated collections',
-      isRequired: false,
+      placeholderMessage: 'Select at least one curated collection',
+      isRequired: true,
+      requiredMessage: 'Select at least one curated collection.',
+    },
+  },
+  {
+    key: 'curationStatus',
+    scope: 'public',
+    schemaType: 'enum',
+    enumOptions: curationStatusOptions,
+    listingTypeConfig: nightlyStayListingTypeConfig,
+    filterConfig: {
+      indexForSearch: true,
+      showFilter: false,
+      label: 'Curation status',
+    },
+    showConfig: {
+      label: 'Curation status',
+      isDetail: false,
+      displayOnListingPage: false,
+    },
+    saveConfig: {
+      label: 'Curation status',
+      placeholderMessage: 'Set review status',
+      isRequired: true,
+      requiredMessage: 'Set a curation status.',
     },
   },
   {
