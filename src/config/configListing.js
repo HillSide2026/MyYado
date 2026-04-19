@@ -31,8 +31,9 @@ const stayTypeOptions = [
   { option: 'villa', label: 'Villa' },
 ];
 
-const collectionTagOptions = [
+const collectionOptions = [
   { option: 'temple-town-stays', label: 'Temple Town Stays' },
+  { option: 'mountain-onsen-retreats', label: 'Mountain Onsen Retreats' },
   { option: 'coastal-culture', label: 'Coastal Culture' },
   { option: 'onsen-retreats', label: 'Onsen Retreats' },
   { option: 'quiet-arrival', label: 'Quiet Arrival' },
@@ -40,9 +41,8 @@ const collectionTagOptions = [
 ];
 
 const curationStatusOptions = [
-  { option: 'curated', label: 'Curated' },
-  { option: 'candidate', label: 'Candidate' },
-  { option: 'rejected', label: 'Rejected' },
+  { option: 'approved', label: 'Approved' },
+  { option: 'featured', label: 'Featured' },
 ];
 
 const amenityOptions = [
@@ -144,10 +144,10 @@ export const listingFields = [
     },
   },
   {
-    key: 'collectionTags',
+    key: 'collections',
     scope: 'public',
     schemaType: 'multi-enum',
-    enumOptions: collectionTagOptions,
+    enumOptions: collectionOptions,
     listingTypeConfig: nightlyStayListingTypeConfig,
     filterConfig: {
       indexForSearch: true,
@@ -162,9 +162,9 @@ export const listingFields = [
     },
     saveConfig: {
       label: 'Collections',
-      placeholderMessage: 'Select at least one curated collection',
+      placeholderMessage: 'Select at least one collection',
       isRequired: true,
-      requiredMessage: 'Select at least one curated collection.',
+      requiredMessage: 'Select at least one collection.',
     },
   },
   {
@@ -172,6 +172,7 @@ export const listingFields = [
     scope: 'public',
     schemaType: 'enum',
     enumOptions: curationStatusOptions,
+    managedBy: 'operator',
     listingTypeConfig: nightlyStayListingTypeConfig,
     filterConfig: {
       indexForSearch: true,
@@ -182,12 +183,6 @@ export const listingFields = [
       label: 'Curation status',
       isDetail: false,
       displayOnListingPage: false,
-    },
-    saveConfig: {
-      label: 'Curation status',
-      placeholderMessage: 'Set review status',
-      isRequired: true,
-      requiredMessage: 'Set a curation status.',
     },
   },
   {

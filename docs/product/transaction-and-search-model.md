@@ -3,12 +3,14 @@
 Phase: 4 - Transaction & Search Definition
 
 Purpose:
+
 - Lock the MyYado MVP transaction mode before UI work.
 - Define the end-to-end inquiry and booking request behavior in Sharetribe terms.
 - Define the initial search filters and map each one to a concrete data source.
 - Identify required listing and transaction schema for Phase 5 configuration.
 
 Scope:
+
 - This document is the source of truth for Phase 5 config work.
 - No custom transaction process is introduced in Phase 4.
 - No custom backend is introduced for bookings, inquiries, or search.
@@ -17,10 +19,10 @@ Scope:
 
 ## Transaction Decision
 
-MVP transaction mode:
-Use request-to-book as the primary commercial path.
+MVP transaction mode: Use request-to-book as the primary commercial path.
 
 Sharetribe target:
+
 - Listing type: `nightly-stay`
 - Transaction process: `default-booking/release-1`
 - Unit type: `night`
@@ -29,9 +31,8 @@ Sharetribe target:
 - Instant booking: deferred
 - Separate `default-inquiry` listing type: deferred
 
-Product rule:
-A Transaction becomes a Reservation only when the Provider accepts the Booking Request. A payment
-preauthorization or inquiry alone is not a Reservation.
+Product rule: A Transaction becomes a Reservation only when the Provider accepts the Booking
+Request. A payment preauthorization or inquiry alone is not a Reservation.
 
 ## Transaction Flow Diagram
 
@@ -99,23 +100,24 @@ accepted
 
 ## Transaction States
 
-| Product state | Sharetribe state | Entry transition | Meaning | Who acts next |
-| --- | --- | --- | --- | --- |
-| Draft trip details | none | none | Traveler is entering dates, traveler count, and notes before creating a Transaction | Traveler |
-| Inquiry | `inquiry` | `transition/inquire` | Traveler has asked a non-binding question about a Listing | Provider |
-| Pending payment | `pending-payment` | `transition/request-payment` or `transition/request-payment-after-inquiry` | Payment intent exists and the Traveler must finish payment confirmation | Traveler |
-| Booking Request | `preauthorized` | `transition/confirm-payment` | Payment is preauthorized and Provider must accept or decline | Provider |
-| Declined | `declined` | `transition/decline` or `transition/operator-decline` | Provider or operator rejected the request | none |
-| Expired | `expired` | `transition/expire` | Provider did not act before the request expired | none |
-| Payment expired | `payment-expired` | `transition/expire-payment` | Traveler did not complete payment confirmation in time | none |
-| Reservation confirmed | `accepted` | `transition/accept` or `transition/operator-accept` | Provider accepted the Booking Request; the stay is confirmed | Provider and Traveler |
-| Reservation canceled | `canceled` | `transition/cancel` | Confirmed reservation was canceled | Platform/Admin or support process |
-| Stay completed | `delivered` | `transition/complete` or `transition/operator-complete` | Stay is complete and review period can begin | Traveler and Provider |
-| Reviewed | `reviewed`, `reviewed-by-customer`, `reviewed-by-provider` | review transitions or review expiration transitions | One or both sides reviewed, or review period ended | none |
+| Product state         | Sharetribe state                                           | Entry transition                                                           | Meaning                                                                             | Who acts next                     |
+| --------------------- | ---------------------------------------------------------- | -------------------------------------------------------------------------- | ----------------------------------------------------------------------------------- | --------------------------------- |
+| Draft trip details    | none                                                       | none                                                                       | Traveler is entering dates, traveler count, and notes before creating a Transaction | Traveler                          |
+| Inquiry               | `inquiry`                                                  | `transition/inquire`                                                       | Traveler has asked a non-binding question about a Listing                           | Provider                          |
+| Pending payment       | `pending-payment`                                          | `transition/request-payment` or `transition/request-payment-after-inquiry` | Payment intent exists and the Traveler must finish payment confirmation             | Traveler                          |
+| Booking Request       | `preauthorized`                                            | `transition/confirm-payment`                                               | Payment is preauthorized and Provider must accept or decline                        | Provider                          |
+| Declined              | `declined`                                                 | `transition/decline` or `transition/operator-decline`                      | Provider or operator rejected the request                                           | none                              |
+| Expired               | `expired`                                                  | `transition/expire`                                                        | Provider did not act before the request expired                                     | none                              |
+| Payment expired       | `payment-expired`                                          | `transition/expire-payment`                                                | Traveler did not complete payment confirmation in time                              | none                              |
+| Reservation confirmed | `accepted`                                                 | `transition/accept` or `transition/operator-accept`                        | Provider accepted the Booking Request; the stay is confirmed                        | Provider and Traveler             |
+| Reservation canceled  | `canceled`                                                 | `transition/cancel`                                                        | Confirmed reservation was canceled                                                  | Platform/Admin or support process |
+| Stay completed        | `delivered`                                                | `transition/complete` or `transition/operator-complete`                    | Stay is complete and review period can begin                                        | Traveler and Provider             |
+| Reviewed              | `reviewed`, `reviewed-by-customer`, `reviewed-by-provider` | review transitions or review expiration transitions                        | One or both sides reviewed, or review period ended                                  | none                              |
 
 ## Actor Actions
 
 Traveler actions:
+
 - Search and filter listings.
 - Open a Listing.
 - Send an Inquiry before committing to payment.
@@ -126,6 +128,7 @@ Traveler actions:
 - Leave a Review after completion when reviews are enabled.
 
 Provider actions:
+
 - Create and maintain the Listing, price, and availability.
 - Reply to Inquiries.
 - Review Booking Requests in `preauthorized` state.
@@ -134,6 +137,7 @@ Provider actions:
 - Coordinate stay completion and leave a Review when reviews are enabled.
 
 Platform/Admin/system actions:
+
 - Operator may accept, decline, complete, or cancel only when support or marketplace operations
   require it.
 - Sharetribe/Marketplace API expires payment and unanswered requests according to the configured
@@ -143,109 +147,112 @@ Platform/Admin/system actions:
 
 ## Search Filters And Data Source
 
-| Filter | Exposed in MVP | Query shape | Data source | Search schema/index | Config target | Notes |
-| --- | --- | --- | --- | --- | --- | --- |
-| Location | yes | `address`, `bounds`, and map query params | Sharetribe listing location/geolocation | Native location search | `src/config/configSearch.js` `mainSearch.searchType = location` | Public location can be approximate; precise arrival details remain private until confirmation |
-| Dates | yes | `dates=start,end`, converted to API `start`, `end`, `availability`, `minDuration` | Sharetribe listing availability and existing bookings | Native availability search | `dateRangeFilter` with `dateRangeMode = night` | Required for bookable search; local config uses nightly search |
-| Price | yes | `price=min,max` | Sharetribe built-in listing `price` | Native price search | `priceFilter` | One marketplace currency only; no custom multi-currency field |
-| Market | yes | `pub_market=value` | `listing.attributes.publicData.market` | Public data search schema: `enum` | `listingFields` field `market` | Primary place filter and flat market route target |
-| Collection | yes | `pub_collectionTags=has_any:temple-town-stays` | `listing.attributes.publicData.collectionTags` | Public data search schema: `multi-enum` | `listingFields` field `collectionTags` | Required search primitive used by curated links and collection browsing |
-| Curation status | hidden | internal `pub_curationStatus=value` index | `listing.attributes.publicData.curationStatus` | Public data search schema: `enum` | `listingFields` field `curationStatus` | Used to rank curated listings above candidates; not a traveler-facing filter |
-| Sort | yes | `sort=createdAt`, `-createdAt`, `-price`, `price` | Built-in listing attributes | Native sort | `sortConfig` | Relevance sort only matters if keyword search is later enabled |
-| Listing Type | hidden | optional `pub_listingType=nightly-stay` | Sharetribe listing type public data set by EditListingWizard | Public data search schema: `enum` only if enforcement is enabled | `listingTypes`, optional `enforceValidListingType` | Not a traveler-facing filter while there is only one MVP listing type |
+| Filter          | Exposed in MVP | Query shape                                                                       | Data source                                                  | Search schema/index                                              | Config target                                                   | Notes                                                                                         |
+| --------------- | -------------- | --------------------------------------------------------------------------------- | ------------------------------------------------------------ | ---------------------------------------------------------------- | --------------------------------------------------------------- | --------------------------------------------------------------------------------------------- |
+| Location        | yes            | `address`, `bounds`, and map query params                                         | Sharetribe listing location/geolocation                      | Native location search                                           | `src/config/configSearch.js` `mainSearch.searchType = location` | Public location can be approximate; precise arrival details remain private until confirmation |
+| Dates           | yes            | `dates=start,end`, converted to API `start`, `end`, `availability`, `minDuration` | Sharetribe listing availability and existing bookings        | Native availability search                                       | `dateRangeFilter` with `dateRangeMode = night`                  | Required for bookable search; local config uses nightly search                                |
+| Price           | yes            | `price=min,max`                                                                   | Sharetribe built-in listing `price`                          | Native price search                                              | `priceFilter`                                                   | One marketplace currency only; no custom multi-currency field                                 |
+| Market          | yes            | `pub_market=value`                                                                | `listing.attributes.publicData.market`                       | Public data search schema: `enum`                                | `listingFields` field `market`                                  | Primary place filter and flat market route target                                             |
+| Collection      | yes            | `pub_collections=has_any:mountain-onsen-retreats`                                 | `listing.attributes.publicData.collections`                  | Public data search schema: `multi-enum`                          | `listingFields` field `collections`                             | Required search primitive used by curated links and collection browsing                       |
+| Curation status | hidden         | internal `pub_curationStatus=value` index                                         | `listing.attributes.publicData.curationStatus`               | Public data search schema: `enum`                                | `listingFields` field `curationStatus`                          | Used to keep default search limited to approved/featured supply; not a traveler-facing filter |
+| Sort            | yes            | `sort=createdAt`, `-createdAt`, `-price`, `price`                                 | Built-in listing attributes                                  | Native sort                                                      | `sortConfig`                                                    | Relevance sort only matters if keyword search is later enabled                                |
+| Listing Type    | hidden         | optional `pub_listingType=nightly-stay`                                           | Sharetribe listing type public data set by EditListingWizard | Public data search schema: `enum` only if enforcement is enabled | `listingTypes`, optional `enforceValidListingType`              | Not a traveler-facing filter while there is only one MVP listing type                         |
 
 Filters not exposed in MVP search:
 
-| Field or intent | Data source | Reason |
-| --- | --- | --- |
-| Stay type | `publicData.stayType` | Structured detail only until supply justifies taxonomy filtering |
-| Travelers / Capacity | `publicData.maxTravelers` | Booking validation and listing detail only; not indexed in MVP discovery |
-| Bedrooms | `publicData.bedrooms` | Listing detail only until there is enough supply to justify filtering |
-| Beds | `publicData.beds` | Listing detail only |
-| Bathrooms | `publicData.bathrooms` | Listing detail only |
-| Amenities | `publicData.amenities` | Listing detail only in MVP; can become a secondary multi-enum filter later |
-| Bathing style | `publicData.bathing` | Listing detail only |
-| Dining | `publicData.dining` | Listing detail only |
-| Transfer availability | `publicData.transferAvailable` | Listing detail only |
-| Languages | `publicData.languages` or provider profile field | Listing/provider detail only |
-| Keywords | built-in keyword search | Deferred; location search is the primary mode |
-| Provider status | provider profile/admin state | Not traveler-facing search |
-| Provider application status | custom/admin workflow | Not traveler-facing search |
-| Private arrival details | `privateData.privateArrivalInstructions` | Never searchable |
+| Field or intent             | Data source                                      | Reason                                                                     |
+| --------------------------- | ------------------------------------------------ | -------------------------------------------------------------------------- |
+| Stay type                   | `publicData.stayType`                            | Structured detail only until supply justifies taxonomy filtering           |
+| Travelers / Capacity        | `publicData.maxTravelers`                        | Booking validation and listing detail only; not indexed in MVP discovery   |
+| Bedrooms                    | `publicData.bedrooms`                            | Listing detail only until there is enough supply to justify filtering      |
+| Beds                        | `publicData.beds`                                | Listing detail only                                                        |
+| Bathrooms                   | `publicData.bathrooms`                           | Listing detail only                                                        |
+| Amenities                   | `publicData.amenities`                           | Listing detail only in MVP; can become a secondary multi-enum filter later |
+| Bathing style               | `publicData.bathing`                             | Listing detail only                                                        |
+| Dining                      | `publicData.dining`                              | Listing detail only                                                        |
+| Transfer availability       | `publicData.transferAvailable`                   | Listing detail only                                                        |
+| Languages                   | `publicData.languages` or provider profile field | Listing/provider detail only                                               |
+| Keywords                    | built-in keyword search                          | Deferred; location search is the primary mode                              |
+| Provider status             | provider profile/admin state                     | Not traveler-facing search                                                 |
+| Provider application status | custom/admin workflow                            | Not traveler-facing search                                                 |
+| Private arrival details     | `privateData.privateArrivalInstructions`         | Never searchable                                                           |
 
 ## Required Listing Schema
 
 Listing type:
 
-| Key | Value |
-| --- | --- |
-| `listingType` | `nightly-stay` |
-| Label | `Stay` |
-| Transaction process | `default-booking` |
-| Transaction alias | `default-booking/release-1` |
-| Unit type | `night` |
-| Availability type | `oneSeat` |
-| Default location field | enabled |
-| Default price field | enabled |
-| Payout details | enabled |
+| Key                    | Value                       |
+| ---------------------- | --------------------------- |
+| `listingType`          | `nightly-stay`              |
+| Label                  | `Stay`                      |
+| Transaction process    | `default-booking`           |
+| Transaction alias      | `default-booking/release-1` |
+| Unit type              | `night`                     |
+| Availability type      | `oneSeat`                   |
+| Default location field | enabled                     |
+| Default price field    | enabled                     |
+| Payout details         | enabled                     |
 
 Required public listing fields:
 
-| Field | Scope | Schema type | Required | Indexed | Filter | Purpose |
-| --- | --- | --- | --- | --- | --- | --- |
-| `market` | `public` | `enum` | yes | yes | yes, primary | Nikko, Kamakura, Hakone, Chiba |
-| `collectionTags` | `public` | `multi-enum` | yes | yes | yes, secondary | Curated discovery links and collection browsing |
-| `curationStatus` | `public` | `enum` | yes | yes | hidden | Curated, candidate, rejected ranking signal |
-| `stayType` | `public` | `enum` | yes | no | no | Ryokan, minshuku, machiya, villa |
-| `maxTravelers` | `public` | `long` | yes | no | no | Capacity display and booking validation |
-| `bedrooms` | `public` | `long` | yes | no | no | Listing detail |
-| `beds` | `public` | `long` | yes | no | no | Listing detail |
-| `bathrooms` | `public` | `long` | yes | no | no | Listing detail |
-| `amenities` | `public` | `multi-enum` | yes | no | no | Listing detail and trust-building |
-| `bathing` | `public` | `multi-enum` | no | no | no | Listing detail |
-| `dining` | `public` | `multi-enum` | no | no | no | Listing detail |
-| `transferAvailable` | `public` | `boolean` | no | no | no | Listing detail |
-| `languages` | `public` | `multi-enum` | no | no | no | Listing/provider detail |
+| Field               | Scope    | Schema type  | Required | Indexed | Filter         | Purpose                                         |
+| ------------------- | -------- | ------------ | -------- | ------- | -------------- | ----------------------------------------------- |
+| `market`            | `public` | `enum`       | yes      | yes     | yes, primary   | Nikko, Kamakura, Hakone, Chiba                  |
+| `collections`       | `public` | `multi-enum` | yes      | yes     | yes, secondary | Curated discovery links and collection browsing |
+| `curationStatus`    | `public` | `enum`       | yes      | yes     | hidden         | Approved or featured search visibility signal   |
+| `stayType`          | `public` | `enum`       | yes      | no      | no             | Ryokan, minshuku, machiya, villa                |
+| `maxTravelers`      | `public` | `long`       | yes      | no      | no             | Capacity display and booking validation         |
+| `bedrooms`          | `public` | `long`       | yes      | no      | no             | Listing detail                                  |
+| `beds`              | `public` | `long`       | yes      | no      | no             | Listing detail                                  |
+| `bathrooms`         | `public` | `long`       | yes      | no      | no             | Listing detail                                  |
+| `amenities`         | `public` | `multi-enum` | yes      | no      | no             | Listing detail and trust-building               |
+| `bathing`           | `public` | `multi-enum` | no       | no      | no             | Listing detail                                  |
+| `dining`            | `public` | `multi-enum` | no       | no      | no             | Listing detail                                  |
+| `transferAvailable` | `public` | `boolean`    | no       | no      | no             | Listing detail                                  |
+| `languages`         | `public` | `multi-enum` | no       | no      | no             | Listing/provider detail                         |
 
 Required private listing fields:
 
-| Field | Scope | Schema type | Required | Indexed | Purpose |
-| --- | --- | --- | --- | --- | --- |
-| `privateArrivalInstructions` | `private` | `text` | no at draft; required operationally before first accepted stay | no | Precise arrival notes shared after confirmation |
-| `providerInternalNotes` | `private` | `text` | no | no | Provider/platform notes that should not be public |
-| `applicationNotes` | `private` | `text` | no | no | MVP provider intake/review notes if needed |
+| Field                        | Scope     | Schema type | Required                                                       | Indexed | Purpose                                           |
+| ---------------------------- | --------- | ----------- | -------------------------------------------------------------- | ------- | ------------------------------------------------- |
+| `privateArrivalInstructions` | `private` | `text`      | no at draft; required operationally before first accepted stay | no      | Precise arrival notes shared after confirmation   |
+| `providerInternalNotes`      | `private` | `text`      | no                                                             | no      | Provider/platform notes that should not be public |
+| `applicationNotes`           | `private` | `text`      | no                                                             | no      | MVP provider intake/review notes if needed        |
 
 Built-in listing fields:
 
-| Field | Required | Purpose |
-| --- | --- | --- |
-| `title` | yes | Public listing name |
-| `description` | yes | Main story, special context, expectations, and hospitality notes |
-| `geolocation` / location | yes | Location search, map, public area display |
-| `price` | yes | Nightly price |
-| `images` | yes | Gallery and listing card media |
-| `availability` | yes before booking | Native booking availability |
+| Field                    | Required           | Purpose                                                          |
+| ------------------------ | ------------------ | ---------------------------------------------------------------- |
+| `title`                  | yes                | Public listing name                                              |
+| `description`            | yes                | Main story, special context, expectations, and hospitality notes |
+| `geolocation` / location | yes                | Location search, map, public area display                        |
+| `price`                  | yes                | Nightly price                                                    |
+| `images`                 | yes                | Gallery and listing card media                                   |
+| `availability`           | yes before booking | Native booking availability                                      |
 
 ## Required Transaction Fields
 
 Transaction fields on `nightly-stay`:
 
-| Field | Show to | Schema type | Required | Purpose |
-| --- | --- | --- | --- | --- |
-| `travelersCount` | `customer` | `long` | yes | Number of travelers in the Booking Request |
-| `arrivalNeeds` | `customer` | `text` | no | Accessibility, timing, dietary, or coordination note |
+| Field            | Show to    | Schema type | Required | Purpose                                              |
+| ---------------- | ---------- | ----------- | -------- | ---------------------------------------------------- |
+| `travelersCount` | `customer` | `long`      | yes      | Number of travelers in the Booking Request           |
+| `arrivalNeeds`   | `customer` | `text`      | no       | Accessibility, timing, dietary, or coordination note |
 
 Traveler note:
+
 - Use the template's existing checkout message field for the general note to Provider.
 - Do not add a duplicate `travelerNote` transaction field unless the checkout message field is
   removed or no longer fits the booking path.
 
 Validation rules:
+
 - `travelersCount` minimum is `1`.
 - `travelersCount` maximum should match the listing field maximum used for `maxTravelers`.
 - UI should prevent creating a Booking Request when `travelersCount` exceeds the Listing
   `maxTravelers`.
-- Payment amount comes from built-in listing price and booking dates, not a custom transaction field.
+- Payment amount comes from built-in listing price and booking dates, not a custom transaction
+  field.
 
 ## End-To-End Booking Definition
 
@@ -281,14 +288,15 @@ Validation rules:
 Before Phase 6 exposes the search UI, these search schemas must exist in the Sharetribe environment
 or hosted/local config must not expose the corresponding filter:
 
-| Key | Scope | Schema type | Required before UI exposure |
-| --- | --- | --- | --- |
-| `market` | `publicData` | `enum` | yes |
-| `collectionTags` | `publicData` | `multi-enum` | yes |
-| `curationStatus` | `publicData` | `enum` | yes |
-| `listingType` | `publicData` | `enum` | only if `enforceValidListingType` or `/s/:listingType` filtering is used |
+| Key              | Scope        | Schema type  | Required before UI exposure                                              |
+| ---------------- | ------------ | ------------ | ------------------------------------------------------------------------ |
+| `market`         | `publicData` | `enum`       | yes                                                                      |
+| `collections`    | `publicData` | `multi-enum` | yes                                                                      |
+| `curationStatus` | `publicData` | `enum`       | yes                                                                      |
+| `listingType`    | `publicData` | `enum`       | only if `enforceValidListingType` or `/s/:listingType` filtering is used |
 
 Fields deliberately not indexed for MVP:
+
 - `stayType`
 - `maxTravelers`
 - `bedrooms`

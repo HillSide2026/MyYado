@@ -121,19 +121,26 @@ const pickListingFieldsData = (
   const targetCategoryIds = Object.values(targetCategories);
 
   return listingFieldConfigs.reduce((fields, fieldConfig) => {
-    const { key, scope = 'public', schemaType } = fieldConfig || {};
+    const { key, managedBy, scope = 'public', schemaType } = fieldConfig || {};
     const namespacePrefix = scope === 'public' ? `pub_` : `priv_`;
     const namespacedKey = `${namespacePrefix}${key}`;
 
     const isKnownSchemaType = EXTENDED_DATA_SCHEMA_TYPES.includes(schemaType);
     const isTargetScope = scope === targetScope;
+    const isProviderEditable = managedBy !== 'operator';
     const isTargetListingType = isFieldForListingType(targetListingType, fieldConfig);
     const isTargetCategory = isFieldForCategory(targetCategoryIds, fieldConfig);
 
-    if (isKnownSchemaType && isTargetScope && isTargetListingType && isTargetCategory) {
+    if (
+      isKnownSchemaType &&
+      isTargetScope &&
+      isProviderEditable &&
+      isTargetListingType &&
+      isTargetCategory
+    ) {
       const fieldValue = data[namespacedKey] != null ? data[namespacedKey] : null;
       return { ...fields, [key]: fieldValue };
-    } else if (isKnownSchemaType && isTargetScope) {
+    } else if (isKnownSchemaType && isTargetScope && isProviderEditable) {
       // Note: this clears extra custom fields
       // These might exists if provider swaps between listing types before saving the draft listing.
       return { ...fields, [key]: null };
@@ -164,7 +171,7 @@ const initialValuesForListingFields = (
   const targetCategoryIds = Object.values(targetCategories);
 
   return listingFieldConfigs.reduce((fields, fieldConfig) => {
-    const { key, scope = 'public', schemaType, enumOptions } = fieldConfig || {};
+    const { key, managedBy, scope = 'public', schemaType, enumOptions } = fieldConfig || {};
     const namespacePrefix = scope === 'public' ? `pub_` : `priv_`;
     const namespacedKey = `${namespacePrefix}${key}`;
 
@@ -174,12 +181,14 @@ const initialValuesForListingFields = (
       !isEnumSchemaType ||
       (isEnumSchemaType && !!enumOptions?.find(conf => conf.option === data?.[key]));
     const isTargetScope = scope === targetScope;
+    const isProviderEditable = managedBy !== 'operator';
     const isTargetListingType = isFieldForListingType(targetListingType, fieldConfig);
     const isTargetCategory = isFieldForCategory(targetCategoryIds, fieldConfig);
 
     if (
       isKnownSchemaType &&
       isTargetScope &&
+      isProviderEditable &&
       isTargetListingType &&
       isTargetCategory &&
       shouldHaveValidEnumOptions

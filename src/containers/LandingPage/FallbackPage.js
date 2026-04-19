@@ -19,6 +19,20 @@ const launchMarkets = [
     routeName: 'KamakuraMarketPage',
     tone: 'kamakura',
   },
+  {
+    name: 'Hakone',
+    role: 'Onsen retreat',
+    copy: 'Warm baths, mountain air, and stays built around restoration.',
+    routeName: 'HakoneMarketPage',
+    tone: 'hakone',
+  },
+  {
+    name: 'Chiba',
+    role: 'Arrival and hidden coast',
+    copy: 'A softer first night, raw coastline, and room to breathe.',
+    routeName: 'ChibaMarketPage',
+    tone: 'chiba',
+  },
 ];
 
 const collections = [
@@ -27,6 +41,13 @@ const collections = [
     market: 'Nikko',
     slug: 'temple-town-stays',
     copy: 'Nature, heritage, and time to slow down.',
+    tone: 'nikko',
+  },
+  {
+    title: 'Mountain Onsen Retreats',
+    market: 'Nikko',
+    slug: 'mountain-onsen-retreats',
+    copy: 'Lake, forest, and hot-spring stays deeper in the mountains.',
     tone: 'nikko',
   },
   {
@@ -45,17 +66,17 @@ const collections = [
   },
   {
     title: 'Quiet Arrival',
-    market: 'Narita',
+    market: 'Chiba',
     slug: 'quiet-arrival',
     copy: 'A calmer first or last night in Japan.',
-    tone: 'narita',
+    tone: 'chiba',
   },
   {
     title: 'Hidden Coast',
-    market: 'Ubara',
+    market: 'Chiba',
     slug: 'hidden-coast',
     copy: 'Raw coastline, fewer crowds, and room to breathe.',
-    tone: 'ubara',
+    tone: 'chiba',
   },
 ];
 

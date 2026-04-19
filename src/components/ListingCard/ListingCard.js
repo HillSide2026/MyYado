@@ -136,8 +136,10 @@ export const ListingCard = props => {
   // Render the listing image only if listing images are enabled in the listing type
   const showListingImage = requireListingImage(foundListingTypeConfig);
 
-  const isCurated = publicData?.curationStatus === 'curated';
+  const curationStatus = publicData?.curationStatus;
+  const isCurated = curationStatus === 'approved' || curationStatus === 'curated';
   const isFeatured =
+    curationStatus === 'featured' ||
     publicData?.featured === true ||
     publicData?.featuredStatus === true ||
     publicData?.featuredStatus === 'featured';

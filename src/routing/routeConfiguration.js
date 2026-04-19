@@ -70,7 +70,7 @@ const RedirectToLandingPage = () => <NamedRedirect name="LandingPage" />;
 const RedirectToSearchPage = () => <NamedRedirect name="SearchPage" />;
 const RedirectToCollectionSearchPage = props => {
   const collectionSlug = props.params?.collectionSlug;
-  const search = collectionSlug ? `?pub_collectionTags=has_any:${collectionSlug}` : '';
+  const search = collectionSlug ? `?pub_collections=has_any:${collectionSlug}` : '';
   return <NamedRedirect name="SearchPage" search={search} />;
 };
 const RedirectToProviderStart = () => <NamedRedirect name="NewListingPage" />;

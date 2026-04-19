@@ -1,0 +1,1849 @@
+{
+  "schemaVersion": "myyado-phase-13-sourced-supply-v1",
+  "status": "working-ledger",
+  "definitions": {
+    "seed": "Inventory-shaped content that does not yet match an actual verified property.",
+    "sourced": "A real property has been identified and is not yet registered with MyYado or Sharetribe.",
+    "pending-verification": "A property name is known, but official site/contact details have not been confirmed cleanly.",
+    "manual-sourcing-cluster": "A real supply pattern to source manually, not a single identified property.",
+    "inactive-benchmark": "A verified property is brand-relevant but not currently active supply.",
+    "removed-from-active-supply": "A property should not be pursued for active marketplace onboarding.",
+    "ota-direct-outreach": "Property appears on Booking.com, Agoda, or a similar OTA. Use the OTA signal to confirm live supply, then contact the operator directly about MyYado onboarding.",
+    "concierge-first": "Property is real but not clearly bookable through major OTAs. Try to arrange the stay manually as MyYado concierge, then convert the provider into a marketplace listing after trust is established."
+  },
+  "acquisitionStrategy": {
+    "classificationRule": "If Booking.com or Agoda presence is confirmed, prioritize direct operator outreach. If OTA presence is missing or weak, use a concierge-first workflow only after a safe direct booking/contact path is confirmed.",
+    "primaryMotions": [
+      {
+        "key": "ota-direct-outreach",
+        "goal": "Convert proven, bookable supply into registered MyYado listings.",
+        "nextAction": "Record OTA URL, find direct operator contact, send onboarding outreach, and avoid copying OTA photos or copy into MyYado."
+      },
+      {
+        "key": "concierge-first",
+        "goal": "Use real traveler demand to validate under-digitized properties and turn successful manual bookings into provider relationships.",
+        "nextAction": "Confirm availability and terms manually, explain the concierge role clearly to the traveler, complete the stay, then ask the provider to onboard."
+      }
+    ],
+    "triageFieldsToCapture": [
+      "bookingComUrl",
+      "agodaUrl",
+      "otaPresence",
+      "officialSiteUrl",
+      "directContact",
+      "acquisitionPath",
+      "nextOutreachAction"
+    ]
+  },
+  "priorityOutreachTiers": [
+    {
+      "key": "tier-1-first-wave",
+      "meaning": "Best first 15 targets across markets. Work these before general sourcing because they combine brand fit, likely contactability, or strategic supply leverage."
+    },
+    {
+      "key": "tier-2-second-wave",
+      "meaning": "Next 5 useful targets after the first wave. Keep warm or verify while tier 1 outreach is in motion."
+    }
+  ],
+  "firstTargetShortlist": [
+    {
+      "rank": 1,
+      "sourceId": "KAM-SRC-001",
+      "acquisitionPath": "concierge-first",
+      "firstAction": "Confirm a safe direct booking/contact path, then test concierge-first before asking the provider to onboard.",
+      "rationale": "Very high brand fit, verified traditional-home story, tiny inventory, and clear contact path.",
+      "otaPresence": "low-ota-direct-first"
+    },
+    {
+      "rank": 2,
+      "sourceId": "NIK-SRC-003",
+      "acquisitionPath": "needs-ota-check",
+      "firstAction": "Confirm OTA presence, then contact STAY Nikko about onboarding multiple unit types.",
+      "rationale": "Verified email and phone, multi-unit micro-operator, and already structured like marketplace supply."
+    },
+    {
+      "rank": 3,
+      "sourceId": "HAK-SRC-007",
+      "acquisitionPath": "ota-direct-outreach",
+      "firstAction": "Capture Booking.com and/or Agoda URL, then find direct operator contact and send onboarding outreach.",
+      "rationale": "Group operator with multiple Hakone facilities; one relationship could unlock meaningful supply.",
+      "otaPresence": "high-probability-booking-agoda"
+    },
+    {
+      "rank": 4,
+      "sourceId": "HAK-SRC-005",
+      "acquisitionPath": "ota-direct-outreach",
+      "firstAction": "Capture Booking.com and/or Agoda URL, then find direct operator contact and send onboarding outreach.",
+      "rationale": "Verified official site and phone, modern ryokan hybrid, strong international-guest fit.",
+      "otaPresence": "high-probability-booking-agoda"
+    },
+    {
+      "rank": 5,
+      "sourceId": "CHI-SRC-001",
+      "acquisitionPath": "needs-ota-check",
+      "firstAction": "Confirm OTA presence, then contact by direct email or phone for soft-arrival positioning.",
+      "rationale": "Verified contact details, highly usable Narita soft-landing supply, and strong first/last-night fit."
+    },
+    {
+      "rank": 6,
+      "sourceId": "HAK-SRC-006",
+      "acquisitionPath": "ota-direct-outreach",
+      "firstAction": "Capture Booking.com and/or Agoda URL, then find direct operator contact and send onboarding outreach.",
+      "rationale": "Verified official English site, direct contact path, and strong mid/upscale onsen-retreat fit.",
+      "otaPresence": "high-probability-booking-agoda"
+    },
+    {
+      "rank": 7,
+      "sourceId": "NIK-SRC-019",
+      "acquisitionPath": "needs-ota-check",
+      "firstAction": "Check Booking.com, Agoda, Rakuten, and Jalan. If major OTA presence is confirmed, contact directly; otherwise evaluate concierge-first.",
+      "rationale": "Direct lake views, intimate scale, and very strong Mountain Onsen Retreats fit.",
+      "otaPresence": "mixed-partial-ota"
+    },
+    {
+      "rank": 8,
+      "sourceId": "HAK-SRC-021",
+      "acquisitionPath": "ota-direct-outreach",
+      "firstAction": "Capture Booking.com and/or Agoda URL, then find direct operator contact and send onboarding outreach.",
+      "rationale": "Very on-brand forest/design positioning that can help MyYado feel differentiated.",
+      "otaPresence": "high-probability-booking-agoda"
+    },
+    {
+      "rank": 9,
+      "sourceId": "KAM-SRC-008",
+      "acquisitionPath": "ota-direct-outreach",
+      "firstAction": "Capture Booking.com and/or Agoda URL, then find direct operator contact and send onboarding outreach.",
+      "rationale": "Strong brand alignment and likely high visual conversion for Coastal Culture.",
+      "otaPresence": "high-probability-booking-agoda"
+    },
+    {
+      "rank": 10,
+      "sourceId": "NIK-SRC-011",
+      "acquisitionPath": "needs-ota-check",
+      "firstAction": "Check Booking.com, Agoda, Rakuten, and Jalan. If major OTA presence is confirmed, contact directly; otherwise evaluate concierge-first.",
+      "rationale": "Traditional ryokan near shrines with dated positioning; strong MyYado rewrite opportunity.",
+      "otaPresence": "mixed-partial-ota"
+    },
+    {
+      "rank": 11,
+      "sourceId": "NIK-SRC-023",
+      "acquisitionPath": "ota-direct-outreach",
+      "firstAction": "Capture Booking.com and/or Agoda URL, then find direct operator contact and send onboarding outreach.",
+      "rationale": "Proper Oku-Nikko onsen ryokan and strong anchor for Mountain Onsen Retreats.",
+      "otaPresence": "high-probability-booking-agoda"
+    },
+    {
+      "rank": 12,
+      "sourceId": "CHI-SRC-002",
+      "acquisitionPath": "needs-ota-check",
+      "firstAction": "Confirm OTA presence, then contact around Naritasan temple-front positioning.",
+      "rationale": "Distinctive Narita temple setting and stronger MyYado fit than generic airport hotels."
+    },
+    {
+      "rank": 13,
+      "sourceId": "KAM-SRC-010",
+      "acquisitionPath": "needs-ota-check",
+      "firstAction": "Confirm OTA presence, then contact around Zaimokuza beach lifestyle positioning.",
+      "rationale": "Beach-facing, lifestyle-led supply that gives Kamakura a clear visual identity."
+    },
+    {
+      "rank": 14,
+      "sourceId": "HAK-SRC-017",
+      "acquisitionPath": "needs-ota-check",
+      "firstAction": "Check Booking.com, Agoda, Rakuten, and Jalan. If major OTA presence is confirmed, contact directly; otherwise evaluate concierge-first.",
+      "rationale": "Historic, quiet, and slightly under-digitized; useful MyYado positioning opportunity.",
+      "otaPresence": "mixed-partial-ota"
+    },
+    {
+      "rank": 15,
+      "sourceId": "NIK-SRC-006",
+      "acquisitionPath": "ota-direct-outreach",
+      "firstAction": "Capture Booking.com and/or Agoda URL, then find direct operator contact and send onboarding outreach.",
+      "rationale": "Premium, cultural, and story-rich; a strong Nikko credibility builder.",
+      "otaPresence": "high-probability-booking-agoda"
+    }
+  ],
+  "items": [
+    {
+      "sourceId": "HAK-SRC-001",
+      "sourceStatus": "sourced",
+      "confidence": "medium",
+      "realPropertyVerified": true,
+      "sharetribeListingCreated": false,
+      "propertyName": "Yaeikan Ryokan",
+      "area": "Hakone-Yumoto",
+      "targetPublicData": {
+        "market": "hakone",
+        "collections": ["onsen-retreats"],
+        "stayType": "ryokan"
+      },
+      "contact": {},
+      "outreachPriority": "medium",
+      "verificationNotes": "Official site was not verified cleanly in the source pass. Keep as medium-confidence sourced supply until direct contact details are confirmed.",
+      "fitNotes": "Traditional Hakone-Yumoto ryokan target.",
+      "otaPresence": "low-ota-direct-first"
+    },
+    {
+      "sourceId": "HAK-SRC-002",
+      "sourceStatus": "sourced",
+      "confidence": "medium",
+      "realPropertyVerified": true,
+      "sharetribeListingCreated": false,
+      "propertyName": "Fukuzumiro Ryokan",
+      "area": "Hakone-Yumoto",
+      "targetPublicData": {
+        "market": "hakone",
+        "collections": ["onsen-retreats"],
+        "stayType": "ryokan"
+      },
+      "contact": {},
+      "outreachPriority": "medium",
+      "verificationNotes": "Official site was not verified cleanly in the source pass. Keep on list, but do not make first outreach until direct contact is confirmed.",
+      "fitNotes": "Brand-fit Hakone ryokan target.",
+      "otaPresence": "low-ota-direct-first"
+    },
+    {
+      "sourceId": "HAK-SRC-003",
+      "sourceStatus": "inactive-benchmark",
+      "confidence": "not-active",
+      "realPropertyVerified": true,
+      "sharetribeListingCreated": false,
+      "propertyName": "Kijitei Hoeiso / Hoeiso",
+      "area": "Hakone-Yumoto area",
+      "targetPublicData": {
+        "market": "hakone",
+        "collections": ["onsen-retreats"],
+        "stayType": "ryokan"
+      },
+      "contact": {
+        "contactPage": "Official site lists email contact"
+      },
+      "outreachPriority": "hold",
+      "verificationNotes": "Official site verified. Site says the property had a major fire and is not currently operating, although email service has been restored.",
+      "fitNotes": "Useful brand-fit benchmark, not active sourced supply right now."
+    },
+    {
+      "sourceId": "HAK-SRC-004",
+      "sourceStatus": "pending-verification",
+      "confidence": "pending",
+      "realPropertyVerified": false,
+      "sharetribeListingCreated": false,
+      "propertyName": "Masutomi Ryokan",
+      "area": "Hakone",
+      "targetPublicData": {
+        "market": "hakone",
+        "collections": ["onsen-retreats"],
+        "stayType": "ryokan"
+      },
+      "contact": {},
+      "outreachPriority": "hold",
+      "verificationNotes": "Not verified cleanly in the source pass. Keep as unconfirmed until official site and contact are checked.",
+      "fitNotes": "Potential Hakone ryokan target."
+    },
+    {
+      "sourceId": "HAK-SRC-005",
+      "sourceStatus": "sourced",
+      "confidence": "high",
+      "realPropertyVerified": true,
+      "sharetribeListingCreated": false,
+      "propertyName": "Hakone Airu",
+      "area": "Hakone-Yumoto",
+      "targetPublicData": {
+        "market": "hakone",
+        "collections": ["onsen-retreats"],
+        "stayType": "ryokan"
+      },
+      "contact": {
+        "phone": "0460-85-3300",
+        "contactPage": "Official site contact page"
+      },
+      "outreachPriority": "high",
+      "verificationNotes": "Verified official site. Site positions it as a hot-spring resort ryokan in Hakone-Yumoto, about 10 minutes on foot from Hakone-Yumoto Station, with 15 rooms.",
+      "fitNotes": "Strong candidate for modern ryokan hybrid and easier international guest fit.",
+      "priorityOutreach": {
+        "tier": "tier-1-first-wave",
+        "acquisitionPath": "ota-direct-outreach",
+        "firstAction": "Capture Booking.com and/or Agoda URL, then find direct operator contact and send onboarding outreach.",
+        "rationale": "Verified official site and phone, modern ryokan hybrid, strong international-guest fit.",
+        "shortlistRank": 4
+      },
+      "otaPresence": "high-probability-booking-agoda"
+    },
+    {
+      "sourceId": "HAK-SRC-006",
+      "sourceStatus": "sourced",
+      "confidence": "high",
+      "realPropertyVerified": true,
+      "sharetribeListingCreated": false,
+      "propertyName": "Senkyoro",
+      "area": "Sengokuhara, Hakone",
+      "targetPublicData": {
+        "market": "hakone",
+        "collections": ["onsen-retreats"],
+        "stayType": "ryokan"
+      },
+      "contact": {
+        "phone": "+81-460-84-8521",
+        "contactPage": "Official English site booking/contact pages",
+        "address": "1284 Sengokuhara"
+      },
+      "outreachPriority": "high",
+      "verificationNotes": "Verified official English site with address, phone, direct booking, and contact pages.",
+      "fitNotes": "Strong mid/upscale fit with natural hot springs, traditional design, dining, and access from Shinjuku/Hakone-Yumoto.",
+      "priorityOutreach": {
+        "tier": "tier-1-first-wave",
+        "acquisitionPath": "ota-direct-outreach",
+        "firstAction": "Capture Booking.com and/or Agoda URL, then find direct operator contact and send onboarding outreach.",
+        "rationale": "Verified official English site, direct contact path, and strong mid/upscale onsen-retreat fit.",
+        "shortlistRank": 6
+      },
+      "otaPresence": "high-probability-booking-agoda"
+    },
+    {
+      "sourceId": "HAK-SRC-007",
+      "sourceStatus": "sourced",
+      "confidence": "high",
+      "realPropertyVerified": true,
+      "sharetribeListingCreated": false,
+      "propertyName": "Ichinoyu Honkan",
+      "area": "Tonosawa, Hakone",
+      "targetPublicData": {
+        "market": "hakone",
+        "collections": ["onsen-retreats"],
+        "stayType": "ryokan"
+      },
+      "contact": {
+        "contactPage": "Ichinoyu official group site"
+      },
+      "outreachPriority": "high",
+      "verificationNotes": "Verified through Ichinoyu official group site and Honkan facility page.",
+      "fitNotes": "Long-established inn along the Hayakawa valley with private open-air-bath rooms. Strategic operator because one relationship could unlock multiple facilities.",
+      "priorityOutreach": {
+        "tier": "tier-1-first-wave",
+        "acquisitionPath": "ota-direct-outreach",
+        "firstAction": "Capture Booking.com and/or Agoda URL, then find direct operator contact and send onboarding outreach.",
+        "rationale": "Group operator with multiple Hakone facilities; one relationship could unlock meaningful supply.",
+        "shortlistRank": 3
+      },
+      "otaPresence": "high-probability-booking-agoda"
+    },
+    {
+      "sourceId": "HAK-SRC-008",
+      "sourceStatus": "sourced",
+      "confidence": "high",
+      "realPropertyVerified": true,
+      "sharetribeListingCreated": false,
+      "propertyName": "Gora Hanaougi",
+      "area": "Gora, Hakone",
+      "targetPublicData": {
+        "market": "hakone",
+        "collections": ["onsen-retreats"],
+        "stayType": "ryokan"
+      },
+      "contact": {
+        "phone": "Official reservation-center phone numbers listed on site",
+        "contactPage": "Official site"
+      },
+      "outreachPriority": "medium",
+      "verificationNotes": "Verified official site with reservation-center phone numbers, Gora addresses, and access information.",
+      "fitNotes": "High-confidence luxury Japanese-style lodging with open-air baths. Aspirational and likely harder to win early.",
+      "otaPresence": "mixed-partial-ota"
+    },
+    {
+      "sourceId": "HAK-SRC-009",
+      "sourceStatus": "pending-verification",
+      "confidence": "pending",
+      "realPropertyVerified": false,
+      "sharetribeListingCreated": false,
+      "propertyName": "Mount View Hakone",
+      "area": "Sengokuhara, Hakone",
+      "targetPublicData": {
+        "market": "hakone",
+        "collections": ["onsen-retreats"],
+        "stayType": "ryokan"
+      },
+      "contact": {},
+      "outreachPriority": "hold",
+      "verificationNotes": "Not verified cleanly in this pass.",
+      "fitNotes": "Potential Hakone benchmark/target pending official verification."
+    },
+    {
+      "sourceId": "HAK-SRC-010",
+      "sourceStatus": "pending-verification",
+      "confidence": "pending",
+      "realPropertyVerified": false,
+      "sharetribeListingCreated": false,
+      "propertyName": "Kinnotake Tonosawa",
+      "area": "Hakone",
+      "targetPublicData": {
+        "market": "hakone",
+        "collections": ["onsen-retreats"],
+        "stayType": "ryokan"
+      },
+      "contact": {},
+      "outreachPriority": "hold",
+      "verificationNotes": "Official verification not clean in this source pass.",
+      "fitNotes": "Useful benchmark target pending official verification."
+    },
+    {
+      "sourceId": "HAK-SRC-011",
+      "sourceStatus": "pending-verification",
+      "confidence": "pending",
+      "realPropertyVerified": false,
+      "sharetribeListingCreated": false,
+      "propertyName": "Rakuten STAY Villa Hakone Sengokuhara",
+      "area": "Sengokuhara",
+      "targetPublicData": {
+        "market": "hakone",
+        "collections": ["onsen-retreats"],
+        "stayType": "villa"
+      },
+      "contact": {},
+      "outreachPriority": "hold",
+      "verificationNotes": "Not verified in this pass. Confirm direct site/contact before treating as sourced.",
+      "fitNotes": "Strategically attractive multi-unit operator if direct onboarding path exists."
+    },
+    {
+      "sourceId": "KAM-SRC-001",
+      "sourceStatus": "sourced",
+      "confidence": "high",
+      "realPropertyVerified": true,
+      "sharetribeListingCreated": false,
+      "propertyName": "Kamakura Cocon",
+      "area": "Nikaido, Kamakura",
+      "targetPublicData": {
+        "market": "kamakura",
+        "collections": ["coastal-culture"],
+        "stayType": "machiya"
+      },
+      "contact": {
+        "phone": "0467-81-4435",
+        "address": "836 Nikaido, Kamakura",
+        "contactPage": "Official site"
+      },
+      "outreachPriority": "high",
+      "verificationNotes": "Verified official site. Presents itself as an exclusive boutique guest house in a renovated traditional home over 160 years old and allows only two parties per night.",
+      "fitNotes": "Very high brand fit and one of the best Kamakura targets.",
+      "priorityOutreach": {
+        "tier": "tier-1-first-wave",
+        "acquisitionPath": "concierge-first",
+        "firstAction": "Confirm a safe direct booking/contact path, then test concierge-first before asking the provider to onboard.",
+        "rationale": "Very high brand fit, verified traditional-home story, tiny inventory, and clear contact path.",
+        "shortlistRank": 1
+      },
+      "otaPresence": "low-ota-direct-first"
+    },
+    {
+      "sourceId": "KAM-SRC-002",
+      "sourceStatus": "pending-verification",
+      "confidence": "pending",
+      "realPropertyVerified": false,
+      "sharetribeListingCreated": false,
+      "propertyName": "Villa Sacra",
+      "area": "Kamakura",
+      "targetPublicData": {
+        "market": "kamakura",
+        "collections": ["coastal-culture"],
+        "stayType": "villa"
+      },
+      "contact": {},
+      "outreachPriority": "hold",
+      "verificationNotes": "Not verified cleanly in this pass.",
+      "fitNotes": "Potential Kamakura target pending official verification."
+    },
+    {
+      "sourceId": "KAM-SRC-003",
+      "sourceStatus": "pending-verification",
+      "confidence": "pending",
+      "realPropertyVerified": false,
+      "sharetribeListingCreated": false,
+      "propertyName": "Guesthouse SHIBAFU",
+      "area": "Kamakura",
+      "targetPublicData": {
+        "market": "kamakura",
+        "collections": ["coastal-culture"],
+        "stayType": "minshuku"
+      },
+      "contact": {},
+      "outreachPriority": "hold",
+      "verificationNotes": "Not verified in this pass.",
+      "fitNotes": "Potential Kamakura guesthouse target pending official verification.",
+      "otaPresence": "low-ota-direct-first"
+    },
+    {
+      "sourceId": "KAM-SRC-004",
+      "sourceStatus": "pending-verification",
+      "confidence": "pending",
+      "realPropertyVerified": false,
+      "sharetribeListingCreated": false,
+      "propertyName": "IZA Kamakura Guesthouse",
+      "area": "Kamakura",
+      "targetPublicData": {
+        "market": "kamakura",
+        "collections": ["coastal-culture"],
+        "stayType": "minshuku"
+      },
+      "contact": {},
+      "outreachPriority": "hold",
+      "verificationNotes": "Not verified in this pass.",
+      "fitNotes": "Potential Kamakura guesthouse target pending official verification.",
+      "otaPresence": "low-ota-direct-first"
+    },
+    {
+      "sourceId": "NIK-SRC-001",
+      "sourceStatus": "sourced",
+      "confidence": "high",
+      "realPropertyVerified": true,
+      "sharetribeListingCreated": false,
+      "propertyName": "Turtle Inn Nikko",
+      "area": "Nikko",
+      "targetPublicData": {
+        "market": "nikko",
+        "collections": ["temple-town-stays"],
+        "stayType": "minshuku"
+      },
+      "contact": {
+        "phone": "+81-288-53-3168",
+        "address": "2-16 Takumi-cho, Nikko",
+        "contactPage": "Official site"
+      },
+      "outreachPriority": "high",
+      "verificationNotes": "Verified official site. Describes itself as a friendly petit inn in a convenient location for Nikko sightseeing.",
+      "fitNotes": "High-confidence simple, foreigner-readable Nikko inventory."
+    },
+    {
+      "sourceId": "NIK-SRC-002",
+      "sourceStatus": "sourced",
+      "confidence": "high",
+      "realPropertyVerified": true,
+      "sharetribeListingCreated": false,
+      "propertyName": "Annex Turtle HOTORI-AN",
+      "area": "Nikko",
+      "targetPublicData": {
+        "market": "nikko",
+        "collections": ["temple-town-stays"],
+        "stayType": "ryokan"
+      },
+      "contact": {
+        "phone": "+81-288-53-3663",
+        "address": "8-28 Takumi-cho, Nikko",
+        "contactPage": "Official inquiry page"
+      },
+      "outreachPriority": "high",
+      "verificationNotes": "Verified official site. Highlights panoramic bath using Nikko hot-spring water and a river/forest view.",
+      "fitNotes": "High-confidence sourced supply and stronger than generic guesthouse inventory."
+    },
+    {
+      "sourceId": "NIK-SRC-003",
+      "sourceStatus": "sourced",
+      "confidence": "high",
+      "realPropertyVerified": true,
+      "sharetribeListingCreated": false,
+      "propertyName": "STAY Nikko Guesthouse",
+      "area": "Nikko",
+      "targetPublicData": {
+        "market": "nikko",
+        "collections": ["temple-town-stays"],
+        "stayType": "villa"
+      },
+      "contact": {
+        "phone": "0288-25-5303",
+        "email": "tnk2015@staynikko.com",
+        "address": "2-360-13 Inarimachi, Nikko",
+        "contactPage": "Official English pages"
+      },
+      "outreachPriority": "high",
+      "verificationNotes": "Verified official site with address, email, phone, detailed pricing, and house-rule information.",
+      "fitNotes": "High-confidence multi-unit micro-operator with Moon Villa, Loft Villa, Mini Loft Villa, and Japanese-style rental house.",
+      "priorityOutreach": {
+        "tier": "tier-1-first-wave",
+        "acquisitionPath": "needs-ota-check",
+        "firstAction": "Confirm OTA presence, then contact STAY Nikko about onboarding multiple unit types.",
+        "rationale": "Verified email and phone, multi-unit micro-operator, and already structured like marketplace supply.",
+        "shortlistRank": 2
+      }
+    },
+    {
+      "sourceId": "NIK-SRC-004",
+      "sourceStatus": "pending-verification",
+      "confidence": "pending",
+      "realPropertyVerified": false,
+      "sharetribeListingCreated": false,
+      "propertyName": "Nikko Park Lodge",
+      "area": "Nikko",
+      "targetPublicData": {
+        "market": "nikko",
+        "collections": ["temple-town-stays"],
+        "stayType": "minshuku"
+      },
+      "contact": {},
+      "outreachPriority": "hold",
+      "verificationNotes": "Not verified cleanly in this pass.",
+      "fitNotes": "Potential Nikko target pending official verification."
+    },
+    {
+      "sourceId": "NIK-SRC-005",
+      "sourceStatus": "pending-verification",
+      "confidence": "pending",
+      "realPropertyVerified": false,
+      "sharetribeListingCreated": false,
+      "propertyName": "Nikko Hoshinoyado",
+      "area": "Nikko",
+      "targetPublicData": {
+        "market": "nikko",
+        "collections": ["temple-town-stays"],
+        "stayType": "ryokan"
+      },
+      "contact": {},
+      "outreachPriority": "hold",
+      "verificationNotes": "Not verified in this pass.",
+      "fitNotes": "Potential Nikko target pending official verification."
+    },
+    {
+      "sourceId": "CHI-SRC-001",
+      "sourceStatus": "sourced",
+      "confidence": "high",
+      "realPropertyVerified": true,
+      "sharetribeListingCreated": false,
+      "propertyName": "Narita Sando Guesthouse",
+      "area": "Narita, Chiba",
+      "targetPublicData": {
+        "market": "chiba",
+        "collections": ["quiet-arrival"],
+        "stayType": "minshuku"
+      },
+      "contact": {
+        "phone": "+81 476-37-8088",
+        "email": "naritasando@gmail.com",
+        "line": "@naritasando",
+        "address": "520-2 Kamicho, Narita",
+        "contactPage": "Booking page and public profile"
+      },
+      "outreachPriority": "high",
+      "verificationNotes": "Verified through booking page and public profile. On Omotesando Street, about 5 minutes' walk from JR Narita and Keisei Narita stations.",
+      "fitNotes": "High-confidence soft landing / first or last night fit.",
+      "priorityOutreach": {
+        "tier": "tier-1-first-wave",
+        "acquisitionPath": "needs-ota-check",
+        "firstAction": "Confirm OTA presence, then contact by direct email or phone for soft-arrival positioning.",
+        "rationale": "Verified contact details, highly usable Narita soft-landing supply, and strong first/last-night fit.",
+        "shortlistRank": 5
+      }
+    },
+    {
+      "sourceId": "CHI-SRC-002",
+      "sourceStatus": "sourced",
+      "confidence": "high",
+      "realPropertyVerified": true,
+      "sharetribeListingCreated": false,
+      "propertyName": "Wakamatsu Honten",
+      "area": "Narita, Chiba",
+      "targetPublicData": {
+        "market": "chiba",
+        "collections": ["quiet-arrival"],
+        "stayType": "ryokan"
+      },
+      "contact": {
+        "address": "355 Honcho, Narita",
+        "contactPage": "Narita tourism and booking references"
+      },
+      "outreachPriority": "high",
+      "verificationNotes": "Verified through Narita tourism and booking references. Roughly 15 minutes on foot from Narita / Keisei Narita stations and directly in front of Naritasan Shinsho-ji Temple.",
+      "fitNotes": "High-confidence sourced supply and stronger MyYado fit than a generic airport hotel.",
+      "priorityOutreach": {
+        "tier": "tier-1-first-wave",
+        "acquisitionPath": "needs-ota-check",
+        "firstAction": "Confirm OTA presence, then contact around Naritasan temple-front positioning.",
+        "rationale": "Distinctive Narita temple setting and stronger MyYado fit than generic airport hotels.",
+        "shortlistRank": 12
+      }
+    },
+    {
+      "sourceId": "CHI-SRC-003",
+      "sourceStatus": "sourced",
+      "confidence": "high",
+      "realPropertyVerified": true,
+      "sharetribeListingCreated": false,
+      "propertyName": "Meet Inn Narita",
+      "area": "Narita, Chiba",
+      "targetPublicData": {
+        "market": "chiba",
+        "collections": ["quiet-arrival"],
+        "stayType": "minshuku"
+      },
+      "contact": {
+        "phone": "0476-23-1113",
+        "email": "info.meet@c-hotel.co.jp",
+        "contactPage": "Official and supporting sources"
+      },
+      "outreachPriority": "medium",
+      "verificationNotes": "Verified through official and supporting sources. Official info says 3 minutes on foot from Keisei Narita Station and about 8 minutes by train to Narita Airport.",
+      "fitNotes": "High-confidence real supply, but more utility-led than brand-led.",
+      "priorityOutreach": {
+        "tier": "tier-2-second-wave",
+        "acquisitionPath": "ota-direct-outreach",
+        "firstAction": "Capture Booking.com and/or Agoda URL, then find direct operator contact and send onboarding outreach.",
+        "rationale": "High-conversion utility option, useful only after stronger Quiet Arrival targets."
+      },
+      "otaPresence": "high-probability-booking-agoda"
+    },
+    {
+      "sourceId": "CHI-SRC-004",
+      "sourceStatus": "removed-from-active-supply",
+      "confidence": "not-active",
+      "realPropertyVerified": true,
+      "sharetribeListingCreated": false,
+      "propertyName": "Narita Airport Rest House",
+      "area": "Narita Airport, Chiba",
+      "targetPublicData": {
+        "market": "chiba",
+        "collections": ["quiet-arrival"],
+        "stayType": "minshuku"
+      },
+      "contact": {},
+      "outreachPriority": "remove",
+      "verificationNotes": "Useful benchmark, but not a target. Narita tourism describes it as the airport's only on-airport hotel; a 2025 report says it closed on March 31, 2025 because of airport redevelopment plans.",
+      "fitNotes": "Remove from active sourced supply."
+    },
+    {
+      "sourceId": "HAK-SRC-012",
+      "sourceStatus": "sourced",
+      "confidence": "high",
+      "realPropertyVerified": true,
+      "sharetribeListingCreated": false,
+      "propertyName": "Yama No Chaya",
+      "area": "Hakone",
+      "targetPublicData": {
+        "market": "hakone",
+        "collections": ["onsen-retreats"],
+        "stayType": "ryokan"
+      },
+      "contact": {},
+      "outreachPriority": "medium",
+      "verificationNotes": "Added from user-provided high-confidence Hakone source list; contact details not yet captured in ledger.",
+      "fitNotes": "Luxury traditional ryokan with strong identity and high price point. Use as aspirational anchor.",
+      "otaPresence": "mixed-partial-ota"
+    },
+    {
+      "sourceId": "HAK-SRC-013",
+      "sourceStatus": "sourced",
+      "confidence": "high",
+      "realPropertyVerified": true,
+      "sharetribeListingCreated": false,
+      "propertyName": "Hakone Ginyu",
+      "area": "Hakone",
+      "targetPublicData": {
+        "market": "hakone",
+        "collections": ["onsen-retreats"],
+        "stayType": "ryokan"
+      },
+      "contact": {},
+      "outreachPriority": "medium",
+      "verificationNotes": "Added from user-provided high-confidence Hakone source list; contact details not yet captured in ledger.",
+      "fitNotes": "Premium ryokan with private baths. Extremely strong demand; useful validation listing."
+    },
+    {
+      "sourceId": "HAK-SRC-014",
+      "sourceStatus": "sourced",
+      "confidence": "high",
+      "realPropertyVerified": true,
+      "sharetribeListingCreated": false,
+      "propertyName": "Mikawaya Ryokan",
+      "area": "Hakone",
+      "targetPublicData": {
+        "market": "hakone",
+        "collections": ["onsen-retreats"],
+        "stayType": "ryokan"
+      },
+      "contact": {},
+      "outreachPriority": "high",
+      "verificationNotes": "Added from user-provided high-confidence Hakone source list; contact details not yet captured in ledger.",
+      "fitNotes": "Historic and mid-range. Good balance of authenticity and accessibility.",
+      "otaPresence": "high-probability-booking-agoda"
+    },
+    {
+      "sourceId": "HAK-SRC-015",
+      "sourceStatus": "sourced",
+      "confidence": "high",
+      "realPropertyVerified": true,
+      "sharetribeListingCreated": false,
+      "propertyName": "Hotel Green Plaza Hakone",
+      "area": "Hakone",
+      "targetPublicData": {
+        "market": "hakone",
+        "collections": ["onsen-retreats"],
+        "stayType": "ryokan"
+      },
+      "contact": {},
+      "outreachPriority": "medium",
+      "verificationNotes": "Added from user-provided high-confidence Hakone source list; contact details not yet captured in ledger.",
+      "fitNotes": "Mt. Fuji view angle. More commercial but likely high conversion. Stay type may need review because current schema has no hotel/resort option.",
+      "otaPresence": "high-probability-booking-agoda"
+    },
+    {
+      "sourceId": "HAK-SRC-016",
+      "sourceStatus": "sourced",
+      "confidence": "high",
+      "realPropertyVerified": true,
+      "sharetribeListingCreated": false,
+      "propertyName": "Hakone Suishoen",
+      "area": "Hakone",
+      "targetPublicData": {
+        "market": "hakone",
+        "collections": ["onsen-retreats"],
+        "stayType": "ryokan"
+      },
+      "contact": {},
+      "outreachPriority": "medium",
+      "verificationNotes": "Added from user-provided high-confidence Hakone source list; contact details not yet captured in ledger.",
+      "fitNotes": "Modern luxury ryokan. Clean UX and useful benchmark.",
+      "otaPresence": "mixed-partial-ota"
+    },
+    {
+      "sourceId": "HAK-SRC-017",
+      "sourceStatus": "sourced",
+      "confidence": "high",
+      "realPropertyVerified": true,
+      "sharetribeListingCreated": false,
+      "propertyName": "Gora Kansuiro",
+      "area": "Gora, Hakone",
+      "targetPublicData": {
+        "market": "hakone",
+        "collections": ["onsen-retreats"],
+        "stayType": "ryokan"
+      },
+      "contact": {},
+      "outreachPriority": "high",
+      "verificationNotes": "Added from user-provided Hakone source list; contact details not yet captured in ledger.",
+      "fitNotes": "Historic and quiet. Slightly under-digitized, which may make it a good MyYado fit.",
+      "priorityOutreach": {
+        "tier": "tier-1-first-wave",
+        "acquisitionPath": "needs-ota-check",
+        "firstAction": "Check Booking.com, Agoda, Rakuten, and Jalan. If major OTA presence is confirmed, contact directly; otherwise evaluate concierge-first.",
+        "rationale": "Historic, quiet, and slightly under-digitized; useful MyYado positioning opportunity.",
+        "shortlistRank": 14
+      },
+      "otaPresence": "mixed-partial-ota"
+    },
+    {
+      "sourceId": "HAK-SRC-018",
+      "sourceStatus": "sourced",
+      "confidence": "high",
+      "realPropertyVerified": true,
+      "sharetribeListingCreated": false,
+      "propertyName": "Onsen Ryokan Yusakaso",
+      "area": "Hakone",
+      "targetPublicData": {
+        "market": "hakone",
+        "collections": ["onsen-retreats"],
+        "stayType": "ryokan"
+      },
+      "contact": {},
+      "outreachPriority": "high",
+      "verificationNotes": "Added from user-provided Hakone source list; contact details not yet captured in ledger.",
+      "fitNotes": "Family-run feel. Good first-ryokan positioning.",
+      "priorityOutreach": {
+        "tier": "tier-2-second-wave",
+        "acquisitionPath": "needs-ota-check",
+        "firstAction": "Check Booking.com, Agoda, Rakuten, and Jalan. If major OTA presence is confirmed, contact directly; otherwise evaluate concierge-first.",
+        "rationale": "Family-run feel and accessible first-ryokan positioning."
+      },
+      "otaPresence": "mixed-partial-ota"
+    },
+    {
+      "sourceId": "HAK-SRC-019",
+      "sourceStatus": "sourced",
+      "confidence": "high",
+      "realPropertyVerified": true,
+      "sharetribeListingCreated": false,
+      "propertyName": "Hakone Pax Yoshino",
+      "area": "Hakone",
+      "targetPublicData": {
+        "market": "hakone",
+        "collections": ["onsen-retreats"],
+        "stayType": "ryokan"
+      },
+      "contact": {},
+      "outreachPriority": "medium",
+      "verificationNotes": "Added from user-provided Hakone source list; contact details not yet captured in ledger.",
+      "fitNotes": "Mid-range with good availability; could make booking success easier.",
+      "otaPresence": "high-probability-booking-agoda"
+    },
+    {
+      "sourceId": "HAK-SRC-020",
+      "sourceStatus": "sourced",
+      "confidence": "high",
+      "realPropertyVerified": true,
+      "sharetribeListingCreated": false,
+      "propertyName": "K's House Hakone",
+      "area": "Hakone",
+      "targetPublicData": {
+        "market": "hakone",
+        "collections": ["onsen-retreats"],
+        "stayType": "minshuku"
+      },
+      "contact": {},
+      "outreachPriority": "medium",
+      "verificationNotes": "Added from user-provided Hakone source list; contact details not yet captured in ledger.",
+      "fitNotes": "Foreigner-friendly fallback inventory."
+    },
+    {
+      "sourceId": "HAK-SRC-021",
+      "sourceStatus": "sourced",
+      "confidence": "high",
+      "realPropertyVerified": true,
+      "sharetribeListingCreated": false,
+      "propertyName": "Hakone Retreat Fore",
+      "area": "Hakone",
+      "targetPublicData": {
+        "market": "hakone",
+        "collections": ["onsen-retreats"],
+        "stayType": "villa"
+      },
+      "contact": {},
+      "outreachPriority": "high",
+      "verificationNotes": "Added from user-provided Hakone source list; contact details not yet captured in ledger.",
+      "fitNotes": "Design-forward forest stay and very on-brand for MyYado. Stay type may need review because current schema has no design-hotel option.",
+      "priorityOutreach": {
+        "tier": "tier-1-first-wave",
+        "acquisitionPath": "ota-direct-outreach",
+        "firstAction": "Capture Booking.com and/or Agoda URL, then find direct operator contact and send onboarding outreach.",
+        "rationale": "Very on-brand forest/design positioning that can help MyYado feel differentiated.",
+        "shortlistRank": 8
+      },
+      "otaPresence": "high-probability-booking-agoda"
+    },
+    {
+      "sourceId": "HAK-SRC-022",
+      "sourceStatus": "sourced",
+      "confidence": "high",
+      "realPropertyVerified": true,
+      "sharetribeListingCreated": false,
+      "propertyName": "Hakone Ashinoko Hanaori",
+      "area": "Lake Ashi, Hakone",
+      "targetPublicData": {
+        "market": "hakone",
+        "collections": ["onsen-retreats"],
+        "stayType": "ryokan"
+      },
+      "contact": {},
+      "outreachPriority": "medium",
+      "verificationNotes": "Added from user-provided Hakone source list; contact details not yet captured in ledger.",
+      "fitNotes": "Modern resort with strong Lake Ashi positioning. Stay type may need review because current schema has no resort option.",
+      "otaPresence": "high-probability-booking-agoda"
+    },
+    {
+      "sourceId": "HAK-SRC-023",
+      "sourceStatus": "sourced",
+      "confidence": "high",
+      "realPropertyVerified": true,
+      "sharetribeListingCreated": false,
+      "propertyName": "Livemax Resort Hakone Sengokuhara",
+      "area": "Sengokuhara, Hakone",
+      "targetPublicData": {
+        "market": "hakone",
+        "collections": ["onsen-retreats"],
+        "stayType": "villa"
+      },
+      "contact": {},
+      "outreachPriority": "medium",
+      "verificationNotes": "Added from user-provided Hakone source list; contact details not yet captured in ledger.",
+      "fitNotes": "Multi-unit operator and useful for scaling supply. Stay type may need review because current schema has no resort/multi-unit operator option.",
+      "otaPresence": "high-probability-booking-agoda"
+    },
+    {
+      "sourceId": "HAK-CLU-001",
+      "sourceStatus": "manual-sourcing-cluster",
+      "confidence": "cluster",
+      "realPropertyVerified": false,
+      "sharetribeListingCreated": false,
+      "propertyName": "Gora Airbnb villas",
+      "area": "Gora, Hakone",
+      "targetPublicData": {
+        "market": "hakone",
+        "collections": ["onsen-retreats"],
+        "stayType": "villa"
+      },
+      "contact": {},
+      "outreachPriority": "high",
+      "verificationNotes": "Manual sourcing pattern from user notes: search for Gora entire home 4.8+.",
+      "fitNotes": "Needed villa layer; source 6-10 across Hakone patterns."
+    },
+    {
+      "sourceId": "HAK-CLU-002",
+      "sourceStatus": "manual-sourcing-cluster",
+      "confidence": "cluster",
+      "realPropertyVerified": false,
+      "sharetribeListingCreated": false,
+      "propertyName": "Sengokuhara design homes",
+      "area": "Sengokuhara, Hakone",
+      "targetPublicData": {
+        "market": "hakone",
+        "collections": ["onsen-retreats"],
+        "stayType": "villa"
+      },
+      "contact": {},
+      "outreachPriority": "high",
+      "verificationNotes": "Manual sourcing pattern from user notes.",
+      "fitNotes": "Needed design-home layer for Hakone."
+    },
+    {
+      "sourceId": "HAK-CLU-003",
+      "sourceStatus": "manual-sourcing-cluster",
+      "confidence": "cluster",
+      "realPropertyVerified": false,
+      "sharetribeListingCreated": false,
+      "propertyName": "Lake Ashi view rentals",
+      "area": "Lake Ashi, Hakone",
+      "targetPublicData": {
+        "market": "hakone",
+        "collections": ["onsen-retreats"],
+        "stayType": "villa"
+      },
+      "contact": {},
+      "outreachPriority": "high",
+      "verificationNotes": "Manual sourcing pattern from user notes.",
+      "fitNotes": "Needed visual identity and view-led rental layer."
+    },
+    {
+      "sourceId": "KAM-SRC-005",
+      "sourceStatus": "sourced",
+      "confidence": "high",
+      "realPropertyVerified": true,
+      "sharetribeListingCreated": false,
+      "propertyName": "WeBase Kamakura",
+      "area": "Kamakura",
+      "targetPublicData": {
+        "market": "kamakura",
+        "collections": ["coastal-culture"],
+        "stayType": "minshuku"
+      },
+      "contact": {},
+      "outreachPriority": "medium",
+      "verificationNotes": "Added from user-provided Kamakura source list; contact details not yet captured in ledger.",
+      "fitNotes": "Modern hostel/hotel hybrid with clean UX and likely easy conversion. Stay type may need review.",
+      "otaPresence": "high-probability-booking-agoda"
+    },
+    {
+      "sourceId": "KAM-SRC-006",
+      "sourceStatus": "sourced",
+      "confidence": "high",
+      "realPropertyVerified": true,
+      "sharetribeListingCreated": false,
+      "propertyName": "Kamakura Park Hotel",
+      "area": "Kamakura",
+      "targetPublicData": {
+        "market": "kamakura",
+        "collections": ["coastal-culture"],
+        "stayType": "minshuku"
+      },
+      "contact": {},
+      "outreachPriority": "medium",
+      "verificationNotes": "Added from user-provided Kamakura source list; contact details not yet captured in ledger.",
+      "fitNotes": "Classic seaside hotel for older/couple demographic. Stay type may need review.",
+      "otaPresence": "high-probability-booking-agoda"
+    },
+    {
+      "sourceId": "KAM-SRC-007",
+      "sourceStatus": "sourced",
+      "confidence": "high",
+      "realPropertyVerified": true,
+      "sharetribeListingCreated": false,
+      "propertyName": "Hotel Metropolitan Kamakura",
+      "area": "Kamakura",
+      "targetPublicData": {
+        "market": "kamakura",
+        "collections": ["coastal-culture"],
+        "stayType": "minshuku"
+      },
+      "contact": {},
+      "outreachPriority": "low",
+      "verificationNotes": "Added from user-provided Kamakura source list; contact details not yet captured in ledger.",
+      "fitNotes": "Polished and central; less unique but reliable. Stay type may need review.",
+      "otaPresence": "high-probability-booking-agoda"
+    },
+    {
+      "sourceId": "KAM-SRC-008",
+      "sourceStatus": "sourced",
+      "confidence": "high",
+      "realPropertyVerified": true,
+      "sharetribeListingCreated": false,
+      "propertyName": "BIRD HOTEL Kamakura",
+      "area": "Kamakura",
+      "targetPublicData": {
+        "market": "kamakura",
+        "collections": ["coastal-culture"],
+        "stayType": "minshuku"
+      },
+      "contact": {},
+      "outreachPriority": "high",
+      "verificationNotes": "Added from user-provided Kamakura source list; contact details not yet captured in ledger.",
+      "fitNotes": "Design-forward boutique with strong brand alignment. Stay type may need review.",
+      "priorityOutreach": {
+        "tier": "tier-1-first-wave",
+        "acquisitionPath": "ota-direct-outreach",
+        "firstAction": "Capture Booking.com and/or Agoda URL, then find direct operator contact and send onboarding outreach.",
+        "rationale": "Strong brand alignment and likely high visual conversion for Coastal Culture.",
+        "shortlistRank": 9
+      },
+      "otaPresence": "high-probability-booking-agoda"
+    },
+    {
+      "sourceId": "KAM-SRC-009",
+      "sourceStatus": "sourced",
+      "confidence": "high",
+      "realPropertyVerified": true,
+      "sharetribeListingCreated": false,
+      "propertyName": "THE HARBOR TERRACE",
+      "area": "Kamakura",
+      "targetPublicData": {
+        "market": "kamakura",
+        "collections": ["coastal-culture"],
+        "stayType": "villa"
+      },
+      "contact": {},
+      "outreachPriority": "high",
+      "verificationNotes": "Added from user-provided Kamakura source list; contact details not yet captured in ledger.",
+      "fitNotes": "Coastal luxury with high visual appeal.",
+      "priorityOutreach": {
+        "tier": "tier-2-second-wave",
+        "acquisitionPath": "ota-direct-outreach",
+        "firstAction": "Capture Booking.com and/or Agoda URL, then find direct operator contact and send onboarding outreach.",
+        "rationale": "High visual appeal and coastal luxury, but likely harder to convert early."
+      },
+      "otaPresence": "high-probability-booking-agoda"
+    },
+    {
+      "sourceId": "KAM-SRC-010",
+      "sourceStatus": "sourced",
+      "confidence": "high",
+      "realPropertyVerified": true,
+      "sharetribeListingCreated": false,
+      "propertyName": "Good Morning Zaimokuza",
+      "area": "Zaimokuza, Kamakura",
+      "targetPublicData": {
+        "market": "kamakura",
+        "collections": ["coastal-culture"],
+        "stayType": "minshuku"
+      },
+      "contact": {},
+      "outreachPriority": "high",
+      "verificationNotes": "Added from user-provided Kamakura source list; contact details not yet captured in ledger.",
+      "fitNotes": "Beach-facing lifestyle positioning.",
+      "priorityOutreach": {
+        "tier": "tier-1-first-wave",
+        "acquisitionPath": "needs-ota-check",
+        "firstAction": "Confirm OTA presence, then contact around Zaimokuza beach lifestyle positioning.",
+        "rationale": "Beach-facing, lifestyle-led supply that gives Kamakura a clear visual identity.",
+        "shortlistRank": 13
+      }
+    },
+    {
+      "sourceId": "KAM-SRC-011",
+      "sourceStatus": "sourced",
+      "confidence": "medium",
+      "realPropertyVerified": true,
+      "sharetribeListingCreated": false,
+      "propertyName": "Kamakura Guesthouse",
+      "area": "Kamakura",
+      "targetPublicData": {
+        "market": "kamakura",
+        "collections": ["coastal-culture"],
+        "stayType": "minshuku"
+      },
+      "contact": {},
+      "outreachPriority": "medium",
+      "verificationNotes": "Added from user-provided Kamakura source list; manual sourcing still required.",
+      "fitNotes": "Backpacker but authentic; useful inventory layer."
+    },
+    {
+      "sourceId": "KAM-CLU-001",
+      "sourceStatus": "manual-sourcing-cluster",
+      "confidence": "cluster",
+      "realPropertyVerified": false,
+      "sharetribeListingCreated": false,
+      "propertyName": "Yuigahama Airbnb homes",
+      "area": "Yuigahama, Kamakura",
+      "targetPublicData": {
+        "market": "kamakura",
+        "collections": ["coastal-culture"],
+        "stayType": "villa"
+      },
+      "contact": {},
+      "outreachPriority": "high",
+      "verificationNotes": "Manual sourcing pattern from user notes.",
+      "fitNotes": "Design-heavy visual identity driver."
+    },
+    {
+      "sourceId": "KAM-CLU-002",
+      "sourceStatus": "manual-sourcing-cluster",
+      "confidence": "cluster",
+      "realPropertyVerified": false,
+      "sharetribeListingCreated": false,
+      "propertyName": "Hase area traditional homes",
+      "area": "Hase, Kamakura",
+      "targetPublicData": {
+        "market": "kamakura",
+        "collections": ["coastal-culture"],
+        "stayType": "machiya"
+      },
+      "contact": {},
+      "outreachPriority": "high",
+      "verificationNotes": "Manual sourcing pattern from user notes.",
+      "fitNotes": "Traditional-home visual identity driver."
+    },
+    {
+      "sourceId": "KAM-CLU-003",
+      "sourceStatus": "manual-sourcing-cluster",
+      "confidence": "cluster",
+      "realPropertyVerified": false,
+      "sharetribeListingCreated": false,
+      "propertyName": "Zaimokuza beach houses",
+      "area": "Zaimokuza, Kamakura",
+      "targetPublicData": {
+        "market": "kamakura",
+        "collections": ["coastal-culture"],
+        "stayType": "villa"
+      },
+      "contact": {},
+      "outreachPriority": "high",
+      "verificationNotes": "Manual sourcing pattern from user notes.",
+      "fitNotes": "Beach-house visual identity driver."
+    },
+    {
+      "sourceId": "NIK-SRC-006",
+      "sourceStatus": "sourced",
+      "confidence": "high",
+      "realPropertyVerified": true,
+      "sharetribeListingCreated": false,
+      "propertyName": "Okunoin Hotel Tokugawa",
+      "area": "Nikko",
+      "targetPublicData": {
+        "market": "nikko",
+        "collections": ["temple-town-stays"],
+        "stayType": "ryokan"
+      },
+      "contact": {},
+      "outreachPriority": "high",
+      "verificationNotes": "Added from user-provided Nikko source list; contact details not yet captured in ledger.",
+      "fitNotes": "Premium and cultural with strong storytelling potential.",
+      "priorityOutreach": {
+        "tier": "tier-1-first-wave",
+        "acquisitionPath": "ota-direct-outreach",
+        "firstAction": "Capture Booking.com and/or Agoda URL, then find direct operator contact and send onboarding outreach.",
+        "rationale": "Premium, cultural, and story-rich; a strong Nikko credibility builder.",
+        "shortlistRank": 15
+      },
+      "otaPresence": "high-probability-booking-agoda"
+    },
+    {
+      "sourceId": "NIK-SRC-007",
+      "sourceStatus": "sourced",
+      "confidence": "high",
+      "realPropertyVerified": true,
+      "sharetribeListingCreated": false,
+      "propertyName": "Nikko Kanaya Hotel",
+      "area": "Nikko",
+      "targetPublicData": {
+        "market": "nikko",
+        "collections": ["temple-town-stays"],
+        "stayType": "ryokan"
+      },
+      "contact": {},
+      "outreachPriority": "medium",
+      "verificationNotes": "Added from user-provided Nikko source list; contact details not yet captured in ledger.",
+      "fitNotes": "Historic Western-style hotel with good narrative contrast. Stay type may need review because current schema has no historic hotel option.",
+      "otaPresence": "high-probability-booking-agoda"
+    },
+    {
+      "sourceId": "NIK-SRC-008",
+      "sourceStatus": "sourced",
+      "confidence": "high",
+      "realPropertyVerified": true,
+      "sharetribeListingCreated": false,
+      "propertyName": "Hotel Shikisai",
+      "area": "near Lake Chuzenji, Nikko",
+      "targetPublicData": {
+        "market": "nikko",
+        "collections": ["mountain-onsen-retreats"],
+        "stayType": "ryokan"
+      },
+      "contact": {},
+      "outreachPriority": "medium",
+      "verificationNotes": "Added from user-provided Nikko source list and updated with Lake Chuzenji positioning; contact details not yet captured in ledger.",
+      "fitNotes": "Modern ryokan-style stay with onsen near Lake Chuzenji. Strong balance of comfort and nature, and likely easier for foreign guests. Assigned to Mountain Onsen Retreats.",
+      "otaPresence": "high-probability-booking-agoda"
+    },
+    {
+      "sourceId": "NIK-SRC-009",
+      "sourceStatus": "sourced",
+      "confidence": "high",
+      "realPropertyVerified": true,
+      "sharetribeListingCreated": false,
+      "propertyName": "Nikko Guesthouse Sumica",
+      "area": "Nikko",
+      "targetPublicData": {
+        "market": "nikko",
+        "collections": ["temple-town-stays"],
+        "stayType": "minshuku"
+      },
+      "contact": {},
+      "outreachPriority": "high",
+      "verificationNotes": "Added from user-provided Nikko source list; contact details not yet captured in ledger.",
+      "fitNotes": "Very foreigner-friendly and likely easier onboarding."
+    },
+    {
+      "sourceId": "NIK-SRC-010",
+      "sourceStatus": "sourced",
+      "confidence": "high",
+      "realPropertyVerified": true,
+      "sharetribeListingCreated": false,
+      "propertyName": "Little Forest Inn Nikko",
+      "area": "Nikko",
+      "targetPublicData": {
+        "market": "nikko",
+        "collections": ["temple-town-stays"],
+        "stayType": "minshuku"
+      },
+      "contact": {},
+      "outreachPriority": "high",
+      "verificationNotes": "Added from user-provided Nikko source list; contact details not yet captured in ledger.",
+      "fitNotes": "Quiet, nature-oriented, and good niche appeal."
+    },
+    {
+      "sourceId": "NIK-SRC-011",
+      "sourceStatus": "sourced",
+      "confidence": "high",
+      "realPropertyVerified": true,
+      "sharetribeListingCreated": false,
+      "propertyName": "Nikko Tokanso",
+      "area": "Nikko",
+      "targetPublicData": {
+        "market": "nikko",
+        "collections": ["temple-town-stays"],
+        "stayType": "ryokan"
+      },
+      "contact": {},
+      "outreachPriority": "high",
+      "verificationNotes": "Added from user-provided Nikko sourced supply list; contact details not yet captured in ledger.",
+      "fitNotes": "Traditional ryokan near shrines with good first-time visitor location. Slightly dated UX creates a MyYado opportunity; good balance of authenticity and accessibility.",
+      "priorityOutreach": {
+        "tier": "tier-1-first-wave",
+        "acquisitionPath": "needs-ota-check",
+        "firstAction": "Check Booking.com, Agoda, Rakuten, and Jalan. If major OTA presence is confirmed, contact directly; otherwise evaluate concierge-first.",
+        "rationale": "Traditional ryokan near shrines with dated positioning; strong MyYado rewrite opportunity.",
+        "shortlistRank": 10
+      },
+      "otaPresence": "mixed-partial-ota"
+    },
+    {
+      "sourceId": "NIK-SRC-012",
+      "sourceStatus": "sourced",
+      "confidence": "high",
+      "realPropertyVerified": true,
+      "sharetribeListingCreated": false,
+      "propertyName": "Hotel Harumoto",
+      "area": "Nikko",
+      "targetPublicData": {
+        "market": "nikko",
+        "collections": ["temple-town-stays"],
+        "stayType": "ryokan"
+      },
+      "contact": {},
+      "outreachPriority": "high",
+      "verificationNotes": "Added from user-provided Nikko sourced supply list; contact details not yet captured in ledger.",
+      "fitNotes": "Family-run feel and very close to the Toshogu area. Not well-positioned for foreigners, making it a strong MyYado rewrite candidate.",
+      "otaPresence": "mixed-partial-ota"
+    },
+    {
+      "sourceId": "NIK-SRC-013",
+      "sourceStatus": "sourced",
+      "confidence": "high",
+      "realPropertyVerified": true,
+      "sharetribeListingCreated": false,
+      "propertyName": "Nikko Akarinoyado Villa Revage",
+      "area": "Nikko",
+      "targetPublicData": {
+        "market": "nikko",
+        "collections": ["temple-town-stays"],
+        "stayType": "villa"
+      },
+      "contact": {},
+      "outreachPriority": "high",
+      "verificationNotes": "Added from user-provided Nikko sourced supply list; contact details not yet captured in ledger.",
+      "fitNotes": "Pension-style stay with private baths and couple-friendly positioning. Already somewhat foreigner-facing and likely high conversion. Current stayType maps to villa as closest fit, but a future pension/lodge option may be better."
+    },
+    {
+      "sourceId": "NIK-SRC-014",
+      "sourceStatus": "sourced",
+      "confidence": "medium",
+      "realPropertyVerified": true,
+      "sharetribeListingCreated": false,
+      "propertyName": "Gasthof Ami",
+      "area": "Nikko",
+      "targetPublicData": {
+        "market": "nikko",
+        "collections": ["temple-town-stays"],
+        "stayType": "minshuku"
+      },
+      "contact": {},
+      "outreachPriority": "medium",
+      "verificationNotes": "Added from user-provided Nikko sourced supply list; contact details not yet captured in ledger.",
+      "fitNotes": "European-style lodge. Niche but memorable, useful for variety. Current stayType maps to minshuku as closest fit, but a future lodge/pension option may be better."
+    },
+    {
+      "sourceId": "NIK-SRC-015",
+      "sourceStatus": "sourced",
+      "confidence": "medium",
+      "realPropertyVerified": true,
+      "sharetribeListingCreated": false,
+      "propertyName": "Nikko Pension L'escale",
+      "area": "Nikko",
+      "targetPublicData": {
+        "market": "nikko",
+        "collections": ["temple-town-stays"],
+        "stayType": "minshuku"
+      },
+      "contact": {},
+      "outreachPriority": "high",
+      "verificationNotes": "Added from user-provided Nikko sourced supply list; contact details not yet captured in ledger.",
+      "fitNotes": "Small, cozy pension with strong hidden-stay energy and discovery narrative. Current stayType maps to minshuku as closest fit, but a future pension/lodge option may be better."
+    },
+    {
+      "sourceId": "NIK-SRC-016",
+      "sourceStatus": "sourced",
+      "confidence": "medium",
+      "realPropertyVerified": true,
+      "sharetribeListingCreated": false,
+      "propertyName": "Guesthouse KOUNDO",
+      "area": "Nikko",
+      "targetPublicData": {
+        "market": "nikko",
+        "collections": ["temple-town-stays"],
+        "stayType": "minshuku"
+      },
+      "contact": {},
+      "outreachPriority": "high",
+      "verificationNotes": "Added from user-provided Nikko sourced supply list; contact details not yet captured in ledger.",
+      "fitNotes": "Very small, personal, high-trust guesthouse. Strong fit for MyYado tone.",
+      "otaPresence": "low-ota-direct-first"
+    },
+    {
+      "sourceId": "NIK-SRC-017",
+      "sourceStatus": "sourced",
+      "confidence": "medium",
+      "realPropertyVerified": true,
+      "sharetribeListingCreated": false,
+      "propertyName": "Nikko Cottage FU-SHA",
+      "area": "Nikko",
+      "targetPublicData": {
+        "market": "nikko",
+        "collections": ["temple-town-stays"],
+        "stayType": "villa"
+      },
+      "contact": {},
+      "outreachPriority": "high",
+      "verificationNotes": "Added from user-provided Nikko sourced supply list; contact details not yet captured in ledger.",
+      "fitNotes": "Unique cottage stay with strong differentiation. Current stayType maps to villa as closest fit, but a future cottage/lodge option may be better.",
+      "otaPresence": "low-ota-direct-first"
+    },
+    {
+      "sourceId": "NIK-SRC-018",
+      "sourceStatus": "sourced",
+      "confidence": "high",
+      "realPropertyVerified": true,
+      "sharetribeListingCreated": false,
+      "propertyName": "Chuzenji Kanaya Hotel",
+      "area": "Lake Chuzenji, Nikko",
+      "targetPublicData": {
+        "market": "nikko",
+        "collections": ["mountain-onsen-retreats"],
+        "stayType": "ryokan"
+      },
+      "contact": {},
+      "outreachPriority": "medium",
+      "verificationNotes": "Added from user-provided Nikko sourced supply list; contact details not yet captured in ledger.",
+      "fitNotes": "Historic mountain/lake resort with iconic setting and strong brand story. Not pure ryokan, but a strong stay experience. Current stayType maps to ryokan as closest fit; future hotel/resort taxonomy may be better. Assigned to Mountain Onsen Retreats.",
+      "otaPresence": "high-probability-booking-agoda"
+    },
+    {
+      "sourceId": "NIK-SRC-019",
+      "sourceStatus": "sourced",
+      "confidence": "high",
+      "realPropertyVerified": true,
+      "sharetribeListingCreated": false,
+      "propertyName": "Hatago Nagomi",
+      "area": "Lake Chuzenji, Nikko",
+      "targetPublicData": {
+        "market": "nikko",
+        "collections": ["mountain-onsen-retreats"],
+        "stayType": "ryokan"
+      },
+      "contact": {},
+      "outreachPriority": "high",
+      "verificationNotes": "Added from user-provided Nikko sourced supply list; contact details not yet captured in ledger.",
+      "fitNotes": "Ryokan-style lakeside stay with direct lake views and intimate scale. Very MyYado-core. Assigned to Mountain Onsen Retreats.",
+      "priorityOutreach": {
+        "tier": "tier-1-first-wave",
+        "acquisitionPath": "needs-ota-check",
+        "firstAction": "Check Booking.com, Agoda, Rakuten, and Jalan. If major OTA presence is confirmed, contact directly; otherwise evaluate concierge-first.",
+        "rationale": "Direct lake views, intimate scale, and very strong Mountain Onsen Retreats fit.",
+        "shortlistRank": 7
+      },
+      "otaPresence": "mixed-partial-ota"
+    },
+    {
+      "sourceId": "NIK-SRC-020",
+      "sourceStatus": "sourced",
+      "confidence": "medium",
+      "realPropertyVerified": true,
+      "sharetribeListingCreated": false,
+      "propertyName": "Okunikko Konishi Hotel",
+      "area": "Oku-Nikko",
+      "targetPublicData": {
+        "market": "nikko",
+        "collections": ["mountain-onsen-retreats"],
+        "stayType": "ryokan"
+      },
+      "contact": {},
+      "outreachPriority": "medium",
+      "verificationNotes": "Added from user-provided Nikko sourced supply list; contact details not yet captured in ledger.",
+      "fitNotes": "Small onsen hotel with quiet, nature-focused positioning. Good mid-tier option. Current stayType maps to ryokan as closest fit; future onsen-hotel taxonomy may be better. Assigned to Mountain Onsen Retreats.",
+      "otaPresence": "mixed-partial-ota"
+    },
+    {
+      "sourceId": "NIK-SRC-021",
+      "sourceStatus": "sourced",
+      "confidence": "medium",
+      "realPropertyVerified": true,
+      "sharetribeListingCreated": false,
+      "propertyName": "Nikko Sansui",
+      "area": "Lake Chuzenji, Nikko",
+      "targetPublicData": {
+        "market": "nikko",
+        "collections": ["mountain-onsen-retreats"],
+        "stayType": "ryokan"
+      },
+      "contact": {},
+      "outreachPriority": "high",
+      "verificationNotes": "Added from user-provided Nikko sourced supply list; contact details not yet captured in ledger.",
+      "fitNotes": "Lakeside positioning with traditional feel. Needs better storytelling, which is a clear MyYado opportunity. Assigned to Mountain Onsen Retreats.",
+      "otaPresence": "low-ota-direct-first"
+    },
+    {
+      "sourceId": "NIK-SRC-022",
+      "sourceStatus": "sourced",
+      "confidence": "high",
+      "realPropertyVerified": true,
+      "sharetribeListingCreated": false,
+      "propertyName": "Nikko Station Hotel Classic",
+      "area": "JR Nikko Station, Nikko",
+      "targetPublicData": {
+        "market": "nikko",
+        "collections": ["temple-town-stays"],
+        "stayType": "ryokan"
+      },
+      "contact": {},
+      "outreachPriority": "medium",
+      "verificationNotes": "Added from user-provided Nikko sourced supply list; contact details not yet captured in ledger.",
+      "fitNotes": "Business-style hotel directly across from JR Nikko Station, with unusually strong arrival convenience and a public bath. Very easy for international travelers. Current stayType maps to ryokan as closest fit because the schema does not yet have station-hotel or onsen-hotel options.",
+      "priorityOutreach": {
+        "tier": "tier-2-second-wave",
+        "acquisitionPath": "needs-ota-check",
+        "firstAction": "Confirm OTA presence, then evaluate as a utility-led JR Nikko arrival option.",
+        "rationale": "Extremely convenient and international-traveler friendly, but less core to the brand story."
+      }
+    },
+    {
+      "sourceId": "NIK-SRC-023",
+      "sourceStatus": "sourced",
+      "confidence": "high",
+      "realPropertyVerified": true,
+      "sharetribeListingCreated": false,
+      "propertyName": "Yumoto Itaya",
+      "area": "Yumoto Onsen, Oku-Nikko",
+      "targetPublicData": {
+        "market": "nikko",
+        "collections": ["mountain-onsen-retreats"],
+        "stayType": "ryokan"
+      },
+      "contact": {},
+      "outreachPriority": "high",
+      "verificationNotes": "Added from user-provided Oku-Nikko sourced supply list; contact details not yet captured in ledger.",
+      "fitNotes": "Proper onsen ryokan deeper in nature above Lake Chuzenji. Not heavily marketed internationally, which makes it a strong MyYado discovery and rewrite opportunity. Assigned to Mountain Onsen Retreats.",
+      "priorityOutreach": {
+        "tier": "tier-1-first-wave",
+        "acquisitionPath": "ota-direct-outreach",
+        "firstAction": "Capture Booking.com and/or Agoda URL, then find direct operator contact and send onboarding outreach.",
+        "rationale": "Proper Oku-Nikko onsen ryokan and strong anchor for Mountain Onsen Retreats.",
+        "shortlistRank": 11
+      },
+      "otaPresence": "high-probability-booking-agoda"
+    },
+    {
+      "sourceId": "NIK-SRC-024",
+      "sourceStatus": "sourced",
+      "confidence": "high",
+      "realPropertyVerified": true,
+      "sharetribeListingCreated": false,
+      "propertyName": "Yumoto Onsen Ooruri Sanso",
+      "area": "Yumoto Onsen, Oku-Nikko",
+      "targetPublicData": {
+        "market": "nikko",
+        "collections": ["mountain-onsen-retreats"],
+        "stayType": "ryokan"
+      },
+      "contact": {},
+      "outreachPriority": "medium",
+      "verificationNotes": "Added from user-provided Oku-Nikko sourced supply list; contact details not yet captured in ledger.",
+      "fitNotes": "Budget ryokan group with likely higher availability. Useful fallback supply for travelers who need booking success more than boutique positioning. Assigned to Mountain Onsen Retreats."
+    },
+    {
+      "sourceId": "NIK-SRC-025",
+      "sourceStatus": "sourced",
+      "confidence": "medium",
+      "realPropertyVerified": true,
+      "sharetribeListingCreated": false,
+      "propertyName": "Okunikko Yumoto Onsen Ryokan Kyokoku",
+      "area": "Yumoto Onsen, Oku-Nikko",
+      "targetPublicData": {
+        "market": "nikko",
+        "collections": ["mountain-onsen-retreats"],
+        "stayType": "ryokan"
+      },
+      "contact": {},
+      "outreachPriority": "high",
+      "verificationNotes": "Added from user-provided Oku-Nikko sourced supply list; contact details not yet captured in ledger.",
+      "fitNotes": "Smaller traditional ryokan and very under-the-radar. Strong MyYado fit if contact and operations can be verified. Assigned to Mountain Onsen Retreats.",
+      "priorityOutreach": {
+        "tier": "tier-2-second-wave",
+        "acquisitionPath": "concierge-first",
+        "firstAction": "Confirm a safe direct booking/contact path, then test concierge-first before asking the provider to onboard.",
+        "rationale": "Very under-the-radar traditional Yumoto target, but contact/operations need checking."
+      },
+      "otaPresence": "low-ota-direct-first"
+    },
+    {
+      "sourceId": "NIK-SRC-026",
+      "sourceStatus": "sourced",
+      "confidence": "medium",
+      "realPropertyVerified": true,
+      "sharetribeListingCreated": false,
+      "propertyName": "Nikko Astraea Hotel",
+      "area": "Kirifuri Highlands, Nikko",
+      "targetPublicData": {
+        "market": "nikko",
+        "collections": ["mountain-onsen-retreats"],
+        "stayType": "minshuku"
+      },
+      "contact": {},
+      "outreachPriority": "medium",
+      "verificationNotes": "Added from user-provided Kirifuri Highlands sourced supply list; contact details not yet captured in ledger.",
+      "fitNotes": "Mountain-lodge style property. Not a classic ryokan, but a strong experience stay for MyYado. Current stayType maps to minshuku as closest fit; future lodge or experience-stay taxonomy may be better. Assigned to Mountain Onsen Retreats."
+    },
+    {
+      "sourceId": "NIK-SRC-027",
+      "sourceStatus": "sourced",
+      "confidence": "medium",
+      "realPropertyVerified": true,
+      "sharetribeListingCreated": false,
+      "propertyName": "Hotel Casual Euro",
+      "area": "Kirifuri Highlands, Nikko",
+      "targetPublicData": {
+        "market": "nikko",
+        "collections": ["mountain-onsen-retreats"],
+        "stayType": "ryokan"
+      },
+      "contact": {},
+      "outreachPriority": "medium",
+      "verificationNotes": "Added from user-provided Kirifuri Highlands sourced supply list; contact details not yet captured in ledger.",
+      "fitNotes": "Hybrid-style stay with private baths. Valuable as an experience stay rather than pure ryokan inventory. Current stayType maps to ryokan as closest fit; future private-bath hotel or experience-stay taxonomy may be better. Assigned to Mountain Onsen Retreats."
+    },
+    {
+      "sourceId": "NIK-SRC-028",
+      "sourceStatus": "sourced",
+      "confidence": "high",
+      "realPropertyVerified": true,
+      "sharetribeListingCreated": false,
+      "propertyName": "Kawaji Onsen Ichiryukaku Honkan",
+      "area": "Kawaji Onsen, Nikko",
+      "targetPublicData": {
+        "market": "nikko",
+        "collections": ["mountain-onsen-retreats"],
+        "stayType": "ryokan"
+      },
+      "contact": {},
+      "outreachPriority": "medium",
+      "verificationNotes": "Added from user-provided Kawaji Onsen sourced supply list; contact details not yet captured in ledger.",
+      "fitNotes": "Traditional large ryokan in Kawaji Onsen. Useful for coverage and availability, though likely less boutique than the strongest MyYado-core targets. Assigned to Mountain Onsen Retreats.",
+      "otaPresence": "high-probability-booking-agoda"
+    },
+    {
+      "sourceId": "NIK-SRC-029",
+      "sourceStatus": "sourced",
+      "confidence": "medium",
+      "realPropertyVerified": true,
+      "sharetribeListingCreated": false,
+      "propertyName": "Kawaji Onsen Motoyu",
+      "area": "Kawaji Onsen, Nikko",
+      "targetPublicData": {
+        "market": "nikko",
+        "collections": ["mountain-onsen-retreats"],
+        "stayType": "ryokan"
+      },
+      "contact": {},
+      "outreachPriority": "high",
+      "verificationNotes": "Added from user-provided Kawaji Onsen sourced supply list; contact details not yet captured in ledger.",
+      "fitNotes": "Older, authentic onsen stay that likely needs repositioning. Strong MyYado opportunity if the property is active and contactable. Assigned to Mountain Onsen Retreats.",
+      "otaPresence": "low-ota-direct-first"
+    },
+    {
+      "sourceId": "NIK-CLU-001",
+      "sourceStatus": "manual-sourcing-cluster",
+      "confidence": "cluster",
+      "realPropertyVerified": false,
+      "sharetribeListingCreated": false,
+      "propertyName": "Nikko forest lodges",
+      "area": "Nikko",
+      "targetPublicData": {
+        "market": "nikko",
+        "collections": ["temple-town-stays"],
+        "stayType": "villa"
+      },
+      "contact": {},
+      "outreachPriority": "high",
+      "verificationNotes": "Manual sourcing pattern from user notes.",
+      "fitNotes": "One of the best MyYado opportunity layers in Nikko."
+    },
+    {
+      "sourceId": "NIK-CLU-002",
+      "sourceStatus": "manual-sourcing-cluster",
+      "confidence": "cluster",
+      "realPropertyVerified": false,
+      "sharetribeListingCreated": false,
+      "propertyName": "Nikko river houses",
+      "area": "Nikko",
+      "targetPublicData": {
+        "market": "nikko",
+        "collections": ["temple-town-stays"],
+        "stayType": "villa"
+      },
+      "contact": {},
+      "outreachPriority": "high",
+      "verificationNotes": "Manual sourcing pattern from user notes.",
+      "fitNotes": "Strong fit for quieter nature stays."
+    },
+    {
+      "sourceId": "NIK-CLU-003",
+      "sourceStatus": "manual-sourcing-cluster",
+      "confidence": "cluster",
+      "realPropertyVerified": false,
+      "sharetribeListingCreated": false,
+      "propertyName": "Nikko traditional inns with weak English UX",
+      "area": "Nikko",
+      "targetPublicData": {
+        "market": "nikko",
+        "collections": ["temple-town-stays"],
+        "stayType": "ryokan"
+      },
+      "contact": {},
+      "outreachPriority": "high",
+      "verificationNotes": "Manual sourcing pattern from user notes.",
+      "fitNotes": "Likely strong MyYado opportunity because MyYado can help with trust, translation, and discovery."
+    },
+    {
+      "sourceId": "CHI-SRC-005",
+      "sourceStatus": "sourced",
+      "confidence": "high",
+      "realPropertyVerified": true,
+      "sharetribeListingCreated": false,
+      "propertyName": "International Garden Hotel Narita",
+      "area": "Narita, Chiba",
+      "targetPublicData": {
+        "market": "chiba",
+        "collections": ["quiet-arrival"],
+        "stayType": "minshuku"
+      },
+      "contact": {},
+      "outreachPriority": "low",
+      "verificationNotes": "Added from user-provided Narita/Chiba source list; contact details not yet captured in ledger.",
+      "fitNotes": "Reliable mid-range fallback. Utility-led rather than brand-led; stay type may need review because current schema has no hotel option.",
+      "otaPresence": "high-probability-booking-agoda"
+    },
+    {
+      "sourceId": "CHI-SRC-006",
+      "sourceStatus": "sourced",
+      "confidence": "high",
+      "realPropertyVerified": true,
+      "sharetribeListingCreated": false,
+      "propertyName": "Richmond Hotel Narita",
+      "area": "Narita, Chiba",
+      "targetPublicData": {
+        "market": "chiba",
+        "collections": ["quiet-arrival"],
+        "stayType": "minshuku"
+      },
+      "contact": {},
+      "outreachPriority": "low",
+      "verificationNotes": "Added from user-provided Narita/Chiba source list; contact details not yet captured in ledger.",
+      "fitNotes": "Clean, business-style, high conversion. Useful fallback but not core brand-led supply; stay type may need review.",
+      "otaPresence": "high-probability-booking-agoda"
+    },
+    {
+      "sourceId": "CHI-SRC-007",
+      "sourceStatus": "sourced",
+      "confidence": "high",
+      "realPropertyVerified": true,
+      "sharetribeListingCreated": false,
+      "propertyName": "Narita U-City Hotel",
+      "area": "Narita, Chiba",
+      "targetPublicData": {
+        "market": "chiba",
+        "collections": ["quiet-arrival"],
+        "stayType": "minshuku"
+      },
+      "contact": {},
+      "outreachPriority": "low",
+      "verificationNotes": "Added from user-provided Narita/Chiba source list; contact details not yet captured in ledger.",
+      "fitNotes": "Older but central affordable option. Useful backup inventory; stay type may need review.",
+      "otaPresence": "high-probability-booking-agoda"
+    },
+    {
+      "sourceId": "CHI-SRC-008",
+      "sourceStatus": "sourced",
+      "confidence": "high",
+      "realPropertyVerified": true,
+      "sharetribeListingCreated": false,
+      "propertyName": "Center Hotel Narita",
+      "area": "Narita, Chiba",
+      "targetPublicData": {
+        "market": "chiba",
+        "collections": ["quiet-arrival"],
+        "stayType": "minshuku"
+      },
+      "contact": {},
+      "outreachPriority": "low",
+      "verificationNotes": "Added from user-provided Narita/Chiba source list; contact details not yet captured in ledger.",
+      "fitNotes": "Functional backup inventory. Utility-led; stay type may need review.",
+      "otaPresence": "high-probability-booking-agoda"
+    }
+  ],
+  "otaPresenceTiers": [
+    {
+      "key": "high-probability-booking-agoda",
+      "meaning": "Operator-supplied high probability that the property appears on Booking.com, Agoda, or both. Capture the actual OTA URL before outreach is treated as verified.",
+      "defaultAcquisitionPath": "ota-direct-outreach"
+    },
+    {
+      "key": "mixed-partial-ota",
+      "meaning": "Operator-supplied mixed signal: may be Booking-only, Rakuten/Jalan-only, or limited OTA inventory. Verify channel presence before choosing direct outreach or concierge-first.",
+      "defaultAcquisitionPath": "needs-ota-check"
+    },
+    {
+      "key": "low-ota-direct-first",
+      "meaning": "Operator-supplied low OTA or direct-only signal. Confirm a safe direct booking/contact path and prefer concierge-first before marketplace onboarding.",
+      "defaultAcquisitionPath": "concierge-first"
+    }
+  ],
+  "otaPresenceNotes": "OTA presence is an operator-supplied probability layer, not verified evidence. Actual Booking.com, Agoda, Rakuten, Jalan, official site, and direct-contact URLs belong in the acquisition triage CSV once checked."
+}

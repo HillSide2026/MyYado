@@ -20,13 +20,41 @@ import { addMarketplaceEntities } from '../../ducks/marketplaceData.duck';
 // Current design has max 3 columns 12 is divisible by 2 and 3
 // So, there's enough cards to fill all columns on full pagination pages
 const RESULT_PAGE_SIZE = 24;
-const CURATION_STATUS_ORDER = { curated: 0, candidate: 1, rejected: 2 };
+const CURATION_STATUS_ORDER = { featured: 0, approved: 1, curated: 1, candidate: 2, rejected: 3 };
 
 // ================ Helper Functions ================ //
 
 const curationRank = listing => {
-  const status = listing?.attributes?.publicData?.curationStatus;
+  const publicData = listing?.attributes?.publicData || {};
+  const status =
+    publicData.curationStatus === 'featured' ||
+    publicData.featured === true ||
+    publicData.featuredStatus === true ||
+    publicData.featuredStatus === 'featured'
+      ? 'featured'
+      : publicData.curationStatus;
   return CURATION_STATUS_ORDER[status] ?? CURATION_STATUS_ORDER.candidate;
+};
+
+const defaultListingQuery = config => {
+  const configuredListingFields = config?.listing?.listingFields || [];
+  const defaultQuery = config?.search?.defaultListingQuery || {};
+
+  return Object.entries(defaultQuery).reduce((picked, [paramName, value]) => {
+    const searchField = configuredListingFields.find(field => {
+      const queryParamName = constructQueryParamName(field.key, field.scope);
+      return field.filterConfig?.indexForSearch === true && queryParamName === paramName;
+    });
+    const allowedValues = searchField?.enumOptions?.map(option => option.option);
+    const queryValues = `${value}`
+      .replace(/^has_all:/, '')
+      .replace(/^has_any:/, '')
+      .split(',');
+    const hasAllowedValues =
+      !allowedValues || queryValues.every(queryValue => allowedValues.includes(queryValue));
+
+    return searchField && hasAllowedValues ? { ...picked, [paramName]: value } : picked;
+  }, {});
 };
 
 const resultIds = data => {
@@ -284,8 +312,10 @@ const searchListingsPayloadCreator = ({ searchParams, config }, thunkAPI) => {
   const stockMaybe = stockFilters(datesMaybe);
   const seatsMaybe = seatsSearchParams(seats, datesMaybe);
   const sortMaybe = sortSearchParams(sort, searchParams?.keywords !== undefined);
+  const defaultQueryMaybe = defaultListingQuery(config);
 
   const params = {
+    ...defaultQueryMaybe,
     // The params that are related to listing fields and categories are prepared here.
     // We add handler functions that check category and integer range configurations.
     // - With category params, we essentially just omit invalid category names.
@@ -435,6 +465,11 @@ export const loadData = (params, search, config) => (dispatch, getState, sdk) =>
         'publicData.transactionProcessAlias',
         'publicData.unitType',
         'publicData.cardStyle',
+        'publicData.market',
+        'publicData.collections',
+        'publicData.curationStatus',
+        'publicData.stayType',
+        'publicData.maxTravelers',
         // These help rendering of 'purchase' listings,
         // when transitioning from search page to listing page
         'publicData.pickupEnabled',

@@ -1581,6 +1581,7 @@ const mergeSearchConfig = (
   // If neither is set, return defaultSearchConfig
   const searchConfig = hostedSearchConfig?.mainSearch
     ? {
+        defaultListingQuery: defaultSearchConfig.defaultListingQuery,
         sortConfig: mergeSortConfig(
           hostedSearchConfig?.sorting?.defaultSortingOptions,
           defaultSearchConfig.sortConfig,

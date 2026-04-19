@@ -102,7 +102,10 @@
     "test-server": "jest --testPathPattern=server/.*\\.test\\.js$",
     "heroku-postbuild": "yarn run build",
     "postinstall": "patch-package",
-    "translate": "node scripts/translations.js"
+    "translate": "node scripts/translations.js",
+    "export-sourced-supply-triage": "node scripts/export-sourced-supply-triage.js",
+    "validate-seed-inventory": "node scripts/validate-seed-inventory.js",
+    "validate-sourced-supply": "node scripts/validate-sourced-supply.js"
   },
   "browserslist": {
     "production": [

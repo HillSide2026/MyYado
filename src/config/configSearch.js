@@ -16,6 +16,12 @@ export const mainSearch = {
   searchType: 'location',
 };
 
+// Search should read as curated by default. Listings only enter browse/search surfaces after an
+// operator sets publicData.curationStatus to approved or featured.
+export const defaultListingQuery = {
+  pub_curationStatus: 'featured,approved',
+};
+
 /**
  * Configuration for default filters.
  * These are custom configs for each filter.
